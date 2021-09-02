@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>{{ WEBSITE_CONTEXT['title'] }}</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <meta name=viewport content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+
+        <div class="main">
+            <div class="head">
+                <nav class="mainnav">
+                    <div class="wslogo">
+                        <h1>
+                            <a href="/">{{ WEBSITE_CONTEXT['title'] }}</a>
+                        </h1>
+                    </div>
+                </nav>
+            </div>
+            <hr>
+            {% block NAVBAR_CONTENTS %}
+                {% if USER_CONTEXT %}
+                <div class='navbar'>
+                        <a href='/'><button>home</button></a>
+                        <a href='/post_maker_form'><button>post maker</button></a>
+                        <a href='/my_profile'><button>profile</button></a>
+                        <a href='/account_settings'><button>account settings</button></a>
+                        <a href='/logout'><button>logout</button></a>
+                </div><hr />
+                {% endif %}
+            {% endblock %}
+            <div class="actual_page_contents">
+                {% block HTML_CONTENTS %}&nbsp;{% endblock %}
+            </div>
+            <div class="footer">
+                <hr>
+                {% block FOOTER_CONTENTS %}
+                    {% if USER_CONTEXT %}
+                        logged in as: {{ USER_CONTEXT.display_name }}
+                    {% else %}
+                        powered by <a href="https://github.com/Kyuunex/minbl">minbl</a>, a minimalist blog software
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block HTML_CONTENTS %}
+    <div class="blog_post_title"><h2>{{ BLOG_POST.title }}</h2></div>
+
+    <div class="blog_post_contents">
+        {{ BLOG_POST.contents }}
+    </div>
+
+{% endblock %}
+
+{% block FOOTER_CONTENTS %}
+    Posted by <a href='#'>{{ BLOG_POST.author.display_name }}</a> on {{ BLOG_POST.timestamp_utc }}
+{% endblock %}

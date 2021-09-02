@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block HTML_CONTENTS %}
+<h2>registration</h2>
+
+<form action='/registration_attempt' method='POST'>
+<table border='0'>
+  <tr>
+    <td>username</td>
+    <td><input name='username' type='text'/></td>
+  </tr>
+  <tr>
+    <td>display name</td>
+    <td><input name='display_name' type='text'/></td>
+  </tr>
+  <tr>
+    <td>email</td>
+    <td><input name='email' type='text'/></td>
+  </tr>
+  <tr>
+    <td>password</td>
+    <td><input name='password' type='password'/></td>
+  </tr>
+  <tr>
+    <td>repeat password</td>
+    <td><input name='repeat_password' type='password'/></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input value='complete registration' type='submit'/></td>
+  </tr>
+</table>
+</form>
+{% endblock %}

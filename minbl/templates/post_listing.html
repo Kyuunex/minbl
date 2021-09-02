@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block HTML_CONTENTS %}
+    <div class="blog_listing">
+    {% for BLOG_POST in BLOG_POSTS %}
+        <div class="blog_listing_one_post">
+            <div class="blog_listing_one_post_title">
+                <a href='/post_view/{{ BLOG_POST.post_id }}'>{{ BLOG_POST.title }}</a>
+            </div>
+            <div class="blog_listing_one_post_preview">
+                {{ BLOG_POST.preview }}
+            </div>
+            <div class="blog_listing_one_post_author">
+                Posted by <a href='#'>{{ BLOG_POST.author.display_name }}</a> on {{ BLOG_POST.timestamp_utc }}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
