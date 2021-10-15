@@ -78,7 +78,10 @@ def login_attempt():
         new_session_token = get_random_string(32)
         resp = make_response(redirect(url_for("blog.index")))
         resp.set_cookie('session_token', new_session_token)
-        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?)", [int(user_id), new_session_token])
+
+        hashed_token = hashlib.sha256(new_session_token.encode()).hexdigest()
+
+        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?)", [int(user_id), hashed_token])
         db_connection.commit()
         return resp
 
@@ -139,7 +142,8 @@ def registration_attempt():
         new_session_token = get_random_string(32)
         resp = make_response(redirect(url_for("blog.index")))
         resp.set_cookie('session_token', new_session_token)
-        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?)", [int(user_id[0][0]), new_session_token])
+        hashed_token = hashlib.sha256(new_session_token.encode()).hexdigest()
+        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?)", [int(user_id[0][0]), hashed_token])
         db_connection.commit()
         return resp
 
@@ -164,6 +168,9 @@ def logout():
 
     resp = make_response(redirect(url_for("user_management.login_form")))
     resp.set_cookie('session_token', '', expires=0)
-    db_cursor.execute("DELETE FROM session_tokens WHERE token = ?", [request.cookies['session_token']])
+
+    hashed_token = hashlib.sha256((request.cookies['session_token']).encode()).hexdigest()
+
+    db_cursor.execute("DELETE FROM session_tokens WHERE token = ?", [hashed_token])
     db_connection.commit()
     return resp

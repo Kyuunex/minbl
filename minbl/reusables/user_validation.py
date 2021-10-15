@@ -39,7 +39,9 @@ def validate_user_credentials(username, password):
 
 
 def validate_session(session_token):
-    id_db = tuple(db_cursor.execute("SELECT user_id FROM session_tokens WHERE token = ?", [session_token]))
+    hashed_token = hashlib.sha256(session_token.encode()).hexdigest()
+
+    id_db = tuple(db_cursor.execute("SELECT user_id FROM session_tokens WHERE token = ?", [hashed_token]))
     if id_db:
         return int(id_db[0][0])
     else:
