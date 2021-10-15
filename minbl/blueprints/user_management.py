@@ -108,8 +108,7 @@ def registration_attempt():
         if not password == repeat_password:
             return "passwords don't match"
 
-        # TODO: user a better hashing algorithm MD5 is temporary
-        hashed_password = hashlib.md5(password.encode()).hexdigest()
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
 
         if not is_anyone_registered:
             perms_to_give = 9
