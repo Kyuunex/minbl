@@ -19,7 +19,6 @@ db_cursor.execute("""
             "id"    INTEGER NOT NULL,
             "email"    TEXT,
             "username"    TEXT NOT NULL UNIQUE,
-            "password"    TEXT NOT NULL,
             "display_name"    TEXT NOT NULL,
             "permissions"    INTEGER NOT NULL,
             PRIMARY KEY("id" AUTOINCREMENT)
@@ -29,6 +28,12 @@ db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "session_tokens" (
             "user_id"    INTEGER NOT NULL,
             "token"    TEXT NOT NULL
+        )
+""")
+db_cursor.execute("""
+        CREATE TABLE IF NOT EXISTS "user_passwords" (
+            "user_id"    INTEGER NOT NULL,
+            "password_hash"    TEXT NOT NULL
         )
 """)
 db_cursor.execute("""

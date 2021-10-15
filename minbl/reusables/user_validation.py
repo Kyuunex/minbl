@@ -17,8 +17,12 @@ class CurrentUser:
 
 def validate_user_credentials(username, password):
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
-    db_query = tuple(db_cursor.execute("SELECT id FROM users WHERE username = ? AND password = ?",
-                                       [username, hashed_password]))
+    user_id = tuple(db_cursor.execute("SELECT id FROM users WHERE username = ?", [username]))
+    if not user_id:
+        return
+
+    db_query = tuple(db_cursor.execute("SELECT user_id FROM user_passwords WHERE user_id = ? AND password_hash = ?",
+                                       [user_id[0][0], hashed_password]))
     if db_query:
         return int(db_query[0][0])
 

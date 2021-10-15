@@ -121,14 +121,18 @@ def registration_attempt():
         if username_already_taken:
             return "the username is already taken!"
 
-        db_cursor.execute("INSERT INTO users (email, username, password, display_name, permissions) "
-                          "VALUES (?, ?, ?, ?, ?)",
-                          [str(email), str(username), str(hashed_password), str(display_name), perms_to_give])
+        db_cursor.execute("INSERT INTO users (email, username, display_name, permissions) "
+                          "VALUES (?, ?, ?, ?)",
+                          [str(email), str(username), str(display_name), perms_to_give])
         db_connection.commit()
 
         # RETURNING SQL statement does not work so I have to do this
-        user_id = tuple(db_cursor.execute("SELECT id FROM users WHERE username = ? AND password = ?",
-                                          [str(username), str(hashed_password)]))
+        user_id = tuple(db_cursor.execute("SELECT id FROM users WHERE username = ?",
+                                          [str(username)]))
+
+        db_cursor.execute("INSERT INTO user_passwords (user_id, password_hash) VALUES (?, ?)",
+                          [int(user_id[0][0]), str(hashed_password)])
+        db_connection.commit()
 
         new_session_token = get_random_string(32)
         resp = make_response(redirect(url_for("blog.index")))
