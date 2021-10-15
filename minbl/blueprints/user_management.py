@@ -108,7 +108,9 @@ def registration_attempt():
         if not password == repeat_password:
             return "passwords don't match"
 
-        hashed_password = hashlib.sha256(password.encode()).hexdigest()
+        password_salt = get_random_string(32)
+
+        hashed_password = hashlib.sha256((password+password_salt).encode()).hexdigest()
 
         if not is_anyone_registered:
             perms_to_give = 9
@@ -130,8 +132,8 @@ def registration_attempt():
         user_id = tuple(db_cursor.execute("SELECT id FROM users WHERE username = ?",
                                           [str(username)]))
 
-        db_cursor.execute("INSERT INTO user_passwords (user_id, password_hash) VALUES (?, ?)",
-                          [int(user_id[0][0]), str(hashed_password)])
+        db_cursor.execute("INSERT INTO user_passwords (user_id, password_hash, password_salt) VALUES (?, ?, ?)",
+                          [int(user_id[0][0]), str(hashed_password), password_salt])
         db_connection.commit()
 
         new_session_token = get_random_string(32)

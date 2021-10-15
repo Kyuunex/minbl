@@ -33,7 +33,8 @@ db_cursor.execute("""
 db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "user_passwords" (
             "user_id"    INTEGER NOT NULL,
-            "password_hash"    TEXT NOT NULL
+            "password_hash"    TEXT NOT NULL,
+            "password_salt"    TEXT NOT NULL
         )
 """)
 db_cursor.execute("""

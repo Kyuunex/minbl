@@ -16,10 +16,19 @@ class CurrentUser:
 
 
 def validate_user_credentials(username, password):
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
     user_id = tuple(db_cursor.execute("SELECT id FROM users WHERE username = ?", [username]))
     if not user_id:
-        return
+        return None
+
+    password_salt_db = tuple(db_cursor.execute("SELECT password_salt FROM user_passwords WHERE user_id = ?",
+                                               [user_id[0][0]]))
+    if not password_salt_db:
+        # This should never happen
+        return None
+
+    password_salt = password_salt_db[0][0]
+
+    hashed_password = hashlib.sha256((password+password_salt).encode()).hexdigest()
 
     db_query = tuple(db_cursor.execute("SELECT user_id FROM user_passwords WHERE user_id = ? AND password_hash = ?",
                                        [user_id[0][0], hashed_password]))
