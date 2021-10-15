@@ -5,6 +5,7 @@ import string
 import random
 import ipaddress
 import time
+from datetime import datetime
 
 from minbl.reusables.context import db_cursor
 from minbl.reusables.context import db_connection
@@ -128,7 +129,7 @@ def registration_attempt():
 
         password_salt = get_random_string(32)
 
-        hashed_password = hashlib.sha256((password+password_salt).encode()).hexdigest()
+        hashed_password = hashlib.sha256((password + password_salt).encode()).hexdigest()
 
         if not is_anyone_registered:
             perms_to_give = 9
@@ -158,7 +159,8 @@ def registration_attempt():
         resp = make_response(redirect(url_for("blog.index")))
         resp.set_cookie('session_token', new_session_token)
         hashed_token = hashlib.sha256(new_session_token.encode()).hexdigest()
-        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?)", [int(user_id[0][0]), hashed_token])
+        # todo fix
+        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?, 0, 0, 0, 0)", [int(user_id[0][0]), hashed_token])
         db_connection.commit()
         return resp
 
@@ -189,3 +191,23 @@ def logout():
     db_cursor.execute("DELETE FROM session_tokens WHERE token = ?", [hashed_token])
     db_connection.commit()
     return resp
+
+
+@user_management.route('/session_listing')
+def session_listing_page():
+    user_context = get_user_context()
+    if not user_context:
+        return redirect(url_for("user_management.login_form"))
+
+    session_listing = tuple(db_cursor.execute("SELECT token, timestamp, user_agent, ip_address, ipv6 "
+                                              "FROM session_tokens WHERE user_id = ?"
+                                              "ORDER BY timestamp DESC", [user_context.id]))
+
+    return render_template(
+        "session_listing.html",
+        WEBSITE_CONTEXT=website_context,
+        USER_CONTEXT=user_context,
+        SESSION_LISTING=session_listing,
+        datetime=datetime,
+        ipaddress=ipaddress
+    )

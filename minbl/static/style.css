@@ -121,3 +121,19 @@ th {
 	font-size: small;
 	background-color: #48424a;
 }
+
+.session_listing_one_session {
+	padding-bottom: 20px;
+}
+
+.session_listing_one_session_ip {
+	font-weight: bold;
+	font-size: medium;
+	background-color: #403a42;
+}
+
+.session_listing_one_session_user_agent {
+	font-weight: normal;
+	font-size: small;
+	background-color: #48424a;
+}

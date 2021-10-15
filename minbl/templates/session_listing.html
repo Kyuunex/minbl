@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block HTML_CONTENTS %}
+    <div class="session_listing">
+    {% for SESSION in SESSION_LISTING %}
+        <div class="session_listing_one_session">
+            <div class="session_listing_one_session_ip">
+                {% if SESSION[4] %}
+                    {{ ipaddress.IPv6Address(SESSION[3]) }}
+                {% else %}
+                    {{ ipaddress.IPv4Address(SESSION[3]) }}
+                {% endif %}
+            </div>
+            <div class="session_listing_one_session_user_agent">
+                {{ SESSION[2] }}
+            </div>
+            <div class="session_listing_one_session_timestamp">
+                {{ datetime.fromtimestamp(SESSION[1]) }}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
