@@ -28,6 +28,13 @@
                 </div><hr />
                 {% endif %}
             {% endblock %}
+            {% block NOTICE_BLOCK %}
+                {% if NOTICE_MESSAGE %}
+                <div class='notice_message'>
+                        {{ NOTICE_MESSAGE }}
+                </div><hr />
+                {% endif %}
+            {% endblock %}
             <div class="actual_page_contents">
                 {% block HTML_CONTENTS %}&nbsp;{% endblock %}
             </div>
