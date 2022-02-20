@@ -16,5 +16,6 @@ setup(
     url='https://github.com/Kyuunex/minbl',
     install_requires=[
         'flask',
+        'pyotp',
     ],
 )

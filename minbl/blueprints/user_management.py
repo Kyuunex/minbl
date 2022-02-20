@@ -3,6 +3,7 @@ from flask import Blueprint, request, make_response, redirect, url_for, render_t
 import hashlib
 import ipaddress
 import time
+import pyotp
 from datetime import datetime
 
 from minbl.reusables.rng import get_random_string
@@ -42,6 +43,32 @@ def login_form():
     return render_template("login_form.html", WEBSITE_CONTEXT=website_context)
 
 
+@user_management.route('/totp_enable_form')
+def totp_enable_form():
+    user_context = get_user_context()
+    if not user_context:
+        return redirect(url_for("blog.index"))
+
+    totp_already_enabled = tuple(db_cursor.execute("SELECT enabled FROM totp_seeds WHERE user_id = ?",
+                                                   [int(user_context.id)]))
+    if totp_already_enabled:
+        return render_template(
+            "account_settings.html",
+            WEBSITE_CONTEXT=website_context,
+            USER_CONTEXT=user_context,
+            NOTICE_MESSAGE="TOTP is already enabled for this account!"
+        )
+
+    totp_seed = pyotp.random_base32()
+
+    return render_template(
+        "totp_enable_form.html",
+        WEBSITE_CONTEXT=website_context,
+        USER_CONTEXT=user_context,
+        GENERATED_TOTP_SEED=totp_seed
+    )
+
+
 @user_management.route('/registration_form')
 def registration_form():
     is_anyone_registered = tuple(db_cursor.execute("SELECT id FROM users"))
@@ -68,9 +95,10 @@ def login_attempt():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user_id = validate_user_credentials(username, password)
+        otp = request.form['generated_code']
+        user_id = validate_user_credentials(username, password, otp=otp)
         if not user_id:
-            return "wrong pass"
+            return render_template("login_form.html", WEBSITE_CONTEXT=website_context, NOTICE_MESSAGE="wrong password")
 
         new_session_token = get_random_string(32)
         resp = make_response(redirect(url_for("blog.index")))
@@ -157,6 +185,38 @@ def registration_attempt():
         db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?, 0, 0, 0, 0)", [int(user_id[0][0]), hashed_token])
         db_connection.commit()
         return resp
+
+
+@user_management.route('/enable_totp', methods=['POST'])
+def enable_totp():
+    user_context = get_user_context()
+    if not user_context:
+        return redirect(url_for("user_management.login_form"))
+    if request.method == 'POST':
+        totp_seed = request.form['totp_seed']
+        generated_code = request.form['generated_code']
+        totp = pyotp.TOTP(totp_seed)
+        if not totp.verify(str(generated_code)):
+            return render_template(
+                "account_settings.html",
+                WEBSITE_CONTEXT=website_context,
+                USER_CONTEXT=user_context,
+                NOTICE_MESSAGE="incorrect 6 digit code"
+            )
+        db_cursor.execute("INSERT INTO totp_seeds VALUES (?, ?, 1)", [int(user_context.id), totp_seed])
+        db_connection.commit()
+        return render_template(
+                "account_settings.html",
+                WEBSITE_CONTEXT=website_context,
+                USER_CONTEXT=user_context,
+                NOTICE_MESSAGE="success"
+            )
+    return render_template(
+        "account_settings.html",
+        WEBSITE_CONTEXT=website_context,
+        USER_CONTEXT=user_context,
+        NOTICE_MESSAGE="invalid use of the endpoint"
+    )
 
 
 @user_management.route('/profile/<user_id>')

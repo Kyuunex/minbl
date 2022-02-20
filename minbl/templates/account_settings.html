@@ -3,7 +3,7 @@
 {% block HTML_CONTENTS %}
     <h1>security settings</h1>
     <a href="#"><h3>change password</h3></a>
-    <a href="#"><h3>enable 2 factor auth</h3></a>
+    <a href="{{ url_for("user_management.totp_enable_form") }}"><h3>enable 2 factor auth</h3></a>
     <a href="{{ url_for("user_management.session_listing_page") }}"><h3>manage sessions</h3></a>
     <a href="#"><h3>disable password recovery for this account via e-mail or support</h3></a>
 {% endblock %}

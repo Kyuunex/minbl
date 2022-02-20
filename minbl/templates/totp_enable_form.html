@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block HTML_CONTENTS %}
+<form action='/enable_totp' method='POST'>
+    <table border='0'>
+        <tr>
+            <td colspan="2"><b>use the TOTP seed to generate a 6 digit code and submit.</b></td>
+        </tr>
+        <tr>
+            <td>TOTP Seed</td>
+            <td><input onClick="this.select();" name='totp_seed'
+                       type='text' value='{{ GENERATED_TOTP_SEED }}' size="60" readonly/></td>
+        </tr>
+        <tr>
+            <td>6 digit code goes here</td>
+            <td><input name='generated_code' type='text'/></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><input value='&#9919; verify' type='submit'/></td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

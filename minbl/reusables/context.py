@@ -35,6 +35,13 @@ db_cursor.execute("""
         )
 """)
 db_cursor.execute("""
+        CREATE TABLE IF NOT EXISTS "totp_seeds" (
+            "user_id"    INTEGER NOT NULL,
+            "seed"    TEXT NOT NULL,
+            "enabled"    INTEGER NOT NULL
+        )
+""")
+db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "user_passwords" (
             "user_id"    INTEGER NOT NULL,
             "password_hash"    TEXT NOT NULL,
