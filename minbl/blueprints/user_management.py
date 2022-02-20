@@ -1,12 +1,11 @@
 from flask import Blueprint, request, make_response, redirect, url_for, render_template
 
 import hashlib
-import string
-import random
 import ipaddress
 import time
 from datetime import datetime
 
+from minbl.reusables.rng import get_random_string
 from minbl.reusables.context import db_cursor
 from minbl.reusables.context import db_connection
 from minbl.reusables.context import website_context
@@ -14,11 +13,6 @@ from minbl.reusables.user_validation import get_user_context
 from minbl.reusables.user_validation import validate_user_credentials
 
 user_management = Blueprint("user_management", __name__)
-
-
-def get_random_string(length):
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for _ in range(length))
 
 
 @user_management.route('/my_profile')
