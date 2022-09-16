@@ -14,7 +14,7 @@
                 {{ SESSION[2] }}
             </div>
             <div class="session_listing_one_session_timestamp">
-                {{ datetime.fromtimestamp(SESSION[1]) }}
+                {{ datetime.fromtimestamp(SESSION[1], timezone.utc) }}
             </div>
         </div>
     {% endfor %}

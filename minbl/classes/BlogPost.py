@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class BlogPost:
@@ -10,4 +10,4 @@ class BlogPost:
         self.privacy = post_db_lookup[4]
         self.unlisted = post_db_lookup[5]
         self.contents = post_db_lookup[6]
-        self.timestamp_utc = str(datetime.fromtimestamp(self.timestamp))
+        self.timestamp_utc = datetime.fromtimestamp(self.timestamp, timezone.utc)

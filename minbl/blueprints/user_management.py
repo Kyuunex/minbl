@@ -4,7 +4,7 @@ import hashlib
 import ipaddress
 import time
 import pyotp
-from datetime import datetime
+from datetime import datetime, timezone
 
 from minbl.reusables.rng import get_random_string
 from minbl.reusables.iptools import ip_decode
@@ -260,5 +260,6 @@ def session_listing_page():
         USER_CONTEXT=user_context,
         SESSION_LISTING=session_listing,
         datetime=datetime,
-        ipaddress=ipaddress
+        ipaddress=ipaddress,
+        timezone=timezone
     )

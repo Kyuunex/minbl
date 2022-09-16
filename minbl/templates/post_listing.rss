@@ -11,7 +11,7 @@
                 <link>{{ request.host_url }}post_view/{{ BLOG_POST.post_id }}</link>
                 <guid>{{ request.host_url }}post_view/{{ BLOG_POST.post_id }}</guid>
                 <description>{{ BLOG_POST.preview }}</description>
-                <pubDate>{{ BLOG_POST.timestamp_utc }}</pubDate>
+                <pubDate>{{ format_datetime(BLOG_POST.timestamp_utc) }}</pubDate>
             </item>
         {% endfor %}
     </channel>

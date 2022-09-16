@@ -2,6 +2,7 @@
 This file provides endpoints for everything blog related
 """
 import time
+from email import utils
 
 from flask import Blueprint, request, make_response, redirect, url_for, render_template
 
@@ -59,7 +60,8 @@ def index():
             WEBSITE_CONTEXT=website_context,
             USER_CONTEXT=user_context,
             BLOG_POSTS=blog_posts,
-            request=request
+            request=request,
+            format_datetime=utils.format_datetime
         )
         response = make_response(rss_xml)
         response.headers['Content-Type'] = 'application/rss+xml'

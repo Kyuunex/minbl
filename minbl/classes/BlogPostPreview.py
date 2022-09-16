@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class BlogPostPreview:
@@ -8,4 +8,4 @@ class BlogPostPreview:
         self.title = post_db_lookup[2]
         self.timestamp = post_db_lookup[3]
         self.preview = post_db_lookup[4]
-        self.timestamp_utc = str(datetime.fromtimestamp(self.timestamp))
+        self.timestamp_utc = datetime.fromtimestamp(self.timestamp, timezone.utc)
