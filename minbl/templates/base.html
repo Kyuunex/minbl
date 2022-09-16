@@ -25,6 +25,9 @@
                         <a href='/post_maker_form'><button>post maker</button></a>
                         <a href='/my_profile'><button>profile</button></a>
                         <a href='/account_settings'><button>account settings</button></a>
+                        {% if USER_CONTEXT.permissions >= 9 %}
+                            <a href='/administration'><button>administration</button></a>
+                        {% endif %}
                         <a href='/logout'><button>logout</button></a>
                     {% else %}
                         <a href='/login_form'><button>login</button></a>

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block HTML_CONTENTS %}
+    <h1>admin panel</h1>
+    <a href="{{ url_for("administration.sql_form") }}"><h3>sql console</h3></a>
+{% endblock %}
