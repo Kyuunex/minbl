@@ -18,6 +18,7 @@ blog = Blueprint("blog", __name__)
 
 
 @blog.route('/', methods=['GET', 'POST'])
+@blog.route('/rss', methods=['GET', 'POST'], endpoint="rss")
 def index():
     """
     This endpoint provides the index page, which is a listing of the recent blog posts
@@ -52,12 +53,25 @@ def index():
         current_post.author = BlogPostAuthor(current_post_author[0])
         blog_posts.append(current_post)
 
-    return render_template(
-        "post_listing.html",
-        WEBSITE_CONTEXT=website_context,
-        USER_CONTEXT=user_context,
-        BLOG_POSTS=blog_posts
-    )
+    if request.endpoint == "blog.rss":
+        rss_xml = render_template(
+            "post_listing.rss",
+            WEBSITE_CONTEXT=website_context,
+            USER_CONTEXT=user_context,
+            BLOG_POSTS=blog_posts,
+            request=request
+        )
+        response = make_response(rss_xml)
+        response.headers['Content-Type'] = 'application/rss+xml'
+    else:
+        normal_template = render_template(
+            "post_listing.html",
+            WEBSITE_CONTEXT=website_context,
+            USER_CONTEXT=user_context,
+            BLOG_POSTS=blog_posts
+        )
+        response = make_response(normal_template)
+    return response
 
 
 @blog.route('/post_maker_form')

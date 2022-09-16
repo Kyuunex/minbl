@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>{{ WEBSITE_CONTEXT['title'] }}</title>
+		<link>{{ request.host_url }}</link>
+		<description>DO NOT SCRAPE MORE THAN ONCE PER 4 HOURS!</description>
+		<language>en-us</language>
+        {% for BLOG_POST in BLOG_POSTS %}
+            <item>
+                <title>{{ BLOG_POST.title }}</title>
+                <link>{{ request.host_url }}post_view/{{ BLOG_POST.post_id }}</link>
+                <guid>{{ request.host_url }}post_view/{{ BLOG_POST.post_id }}</guid>
+                <description>{{ BLOG_POST.preview }}</description>
+                <pubDate>{{ BLOG_POST.timestamp_utc }}</pubDate>
+            </item>
+        {% endfor %}
+    </channel>
+</rss>
