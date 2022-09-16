@@ -1,3 +1,3 @@
-graft minbl/static
-graft minbl/templates
+recursive-include minbl static/*
+recursive-include minbl templates/*
 global-exclude *.pyc
