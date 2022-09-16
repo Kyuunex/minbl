@@ -9,6 +9,7 @@ setup(
         'minbl.reusables'
     ],
     include_package_data=True,
+    package_data={'minbl': ['static/*', 'templates/*']},
     version="0.1",
     description='A minimalist blog',
     author='Kyuunex',
