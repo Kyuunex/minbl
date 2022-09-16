@@ -8,6 +8,7 @@ setup(
         'minbl.classes',
         'minbl.reusables'
     ],
+    include_package_data=True,
     version="0.1",
     description='A minimalist blog',
     author='Kyuunex',
