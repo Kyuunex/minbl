@@ -14,7 +14,9 @@ regardless of how inefficient python itself is, because my code is very minimal,
 using python also lowers the barrier of entry of anyone being able to customize this app.
 
 ### installation
-just install this as a pip package, make an apache conf that looks something like this
+just install this as a pip package 
+`python3 -m pip install git+https://github.com/Kyuunex/minbl.git` 
+then make an apache conf that looks something like this
 ```bash
 <VirtualHost *:443>
 ServerAdmin webmaster@your-domain.com
