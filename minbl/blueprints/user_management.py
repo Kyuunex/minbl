@@ -7,6 +7,7 @@ import pyotp
 from datetime import datetime
 
 from minbl.reusables.rng import get_random_string
+from minbl.reusables.iptools import ip_decode
 from minbl.reusables.context import db_cursor
 from minbl.reusables.context import db_connection
 from minbl.reusables.context import website_context
@@ -105,21 +106,12 @@ def login_attempt():
         resp.set_cookie('session_token', new_session_token)
 
         hashed_token = hashlib.sha256(new_session_token.encode()).hexdigest()
-        client_ip_address_str = request.remote_addr
-
-        if "." in client_ip_address_str:
-            client_ip_address_ipv6 = 0
-            client_ip_address_int = ipaddress.IPv4Address(client_ip_address_str)
-        elif ":" in client_ip_address_str:
-            client_ip_address_ipv6 = 1
-            client_ip_address_int = ipaddress.IPv6Address(client_ip_address_str)
-        else:
-            raise ValueError("something is wrong")
+        client_ip_address_is_ipv6, client_ip_address_int = ip_decode(request.remote_addr)
 
         db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?, ?, ?, ?, ?)",
                           [int(user_id), hashed_token,
                            int(time.time()), str(request.user_agent.string),
-                           int(client_ip_address_int), int(client_ip_address_ipv6)])
+                           int(client_ip_address_int), int(client_ip_address_is_ipv6)])
         db_connection.commit()
         return resp
 
