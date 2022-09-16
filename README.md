@@ -15,7 +15,7 @@ using python also lowers the barrier of entry of anyone being able to customize 
 
 ### installation
 just install this as a pip package  
-`python3 -m pip install git+https://github.com/Kyuunex/minbl.git` 
+`python3 -m pip install git+https://github.com/Kyuunex/minbl.git`  
 then make an apache conf that looks something like this
 ```bash
 <VirtualHost *:443>
