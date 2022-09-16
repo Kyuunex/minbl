@@ -9,10 +9,12 @@ from minbl.reusables.context import db_connection
 from minbl.reusables.context import website_context
 from minbl.reusables.user_validation import get_user_context
 
+from minbl.blueprints.administration import administration
 from minbl.blueprints.blog import blog
 from minbl.blueprints.user_management import user_management
 
 app = Flask(__name__)
+app.register_blueprint(administration)
 app.register_blueprint(blog)
 app.register_blueprint(user_management)
 
