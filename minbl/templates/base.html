@@ -18,15 +18,18 @@
             </div>
             <hr>
             {% block NAVBAR_CONTENTS %}
-                {% if USER_CONTEXT %}
                 <div class='navbar'>
-                        <a href='/'><button>home</button></a>
+                    <a href='/'><button>home</button></a>
+                    <a href='/rss'><button>rss</button></a>
+                    {% if USER_CONTEXT %}
                         <a href='/post_maker_form'><button>post maker</button></a>
                         <a href='/my_profile'><button>profile</button></a>
                         <a href='/account_settings'><button>account settings</button></a>
                         <a href='/logout'><button>logout</button></a>
+                    {% else %}
+                        <a href='/login_form'><button>login</button></a>
+                    {% endif %}
                 </div><hr />
-                {% endif %}
             {% endblock %}
             {% block NOTICE_BLOCK %}
                 {% if NOTICE_MESSAGE %}
