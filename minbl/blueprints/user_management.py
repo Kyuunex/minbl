@@ -224,7 +224,8 @@ def profile(user_id):
     if not user_id.isdigit():
         return make_response(redirect("https://www.youtube.com/watch?v=o-YBDTqX_ZU"))
 
-    info_db = tuple(db_cursor.execute("SELECT * FROM users WHERE id = ?", [user_id]))
+    info_db = tuple(db_cursor.execute("SELECT id, email, username, display_name, permissions FROM users WHERE id = ?",
+                                      [user_id]))
     return render_template("profile.html", WEBSITE_CONTEXT=website_context, info=info_db[0], USER_CONTEXT=user_context)
 
 
