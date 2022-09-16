@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
-    <h2>{{ info[2] }}</h2><br>
+    <h2>{{ info[3] }}</h2>
+    <h2>{{ info[2] }}</h2>
+    <h2>permissions: {{ info[4] }}</h2>
+    <a href='/?author_id={{ info[0] }}'><h2>view all posts by this user</h2></a>
 {% endblock %}
