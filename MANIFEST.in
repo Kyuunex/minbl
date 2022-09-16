@@ -1,0 +1,3 @@
+graft minbl/static
+graft minbl/templates
+global-exclude *.pyc

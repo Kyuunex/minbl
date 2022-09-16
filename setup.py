@@ -5,9 +5,8 @@ setup(
     packages=[
         'minbl',
         'minbl.blueprints',
-        'minbl.reusables',
-        'minbl.static'
-        'minbl.templates'
+        'minbl.classes',
+        'minbl.reusables'
     ],
     version="0.1",
     description='A minimalist blog',
