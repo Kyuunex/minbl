@@ -174,7 +174,11 @@ def registration_attempt():
         resp.set_cookie('session_token', new_session_token)
         hashed_token = hashlib.sha256(new_session_token.encode()).hexdigest()
         # todo fix
-        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?, 0, 0, 0, 0)", [int(user_id[0][0]), hashed_token])
+        client_ip_address_is_ipv6, client_ip_address_int = ip_decode(request.remote_addr)
+        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?, ?, ?, ?, ?)",
+                          [int(user_id[0][0]), hashed_token,
+                           int(time.time()), str(request.user_agent.string),
+                           int(client_ip_address_int), int(client_ip_address_is_ipv6)])
         db_connection.commit()
         return resp
 
