@@ -93,7 +93,14 @@ def make_post():
                            post_privacy, post_unlisted, post_preview, post_contents])
         db_connection.commit()
 
-        resp = make_response(redirect(url_for("blog.post_view", post_id=1)))
+        # RETURNING SQL statement does not work so I have to do this
+        post_id = tuple(db_cursor.execute("SELECT id FROM blog_posts "
+                                          "WHERE author_id = ? AND title = ? AND timestamp = ? "
+                                          "AND privacy = ? AND unlisted = ? AND preview = ? AND contents = ?",
+                                          [user_context.id, post_title, int(time.time()),
+                                           post_privacy, post_unlisted, post_preview, post_contents]))
+
+        resp = make_response(redirect(url_for("blog.post_view", post_id=int(post_id[0][0]))))
 
         return resp
 
