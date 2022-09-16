@@ -10,7 +10,8 @@
                 {{ BLOG_POST.preview }}
             </div>
             <div class="blog_listing_one_post_author">
-                Posted by <a href='#'>{{ BLOG_POST.author.display_name }}</a> on {{ BLOG_POST.timestamp_utc }}
+                Posted by <a href='/?author_id={{ BLOG_POST.author.id }}'>{{ BLOG_POST.author.display_name }}</a>
+                on {{ BLOG_POST.timestamp_utc }}
             </div>
         </div>
     {% endfor %}
