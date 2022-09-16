@@ -1,6 +1,8 @@
 """
 This file provides endpoints for everything blog related
 """
+import time
+
 from flask import Blueprint, request, make_response, redirect, url_for, render_template
 
 from minbl.reusables.context import db_cursor
@@ -87,7 +89,8 @@ def make_post():
 
         db_cursor.execute("INSERT INTO blog_posts (author_id, title, timestamp, privacy, unlisted, preview, contents) "
                           "VALUES (?, ?, ?, ?, ?, ?, ?) -- RETURNING id",
-                          [user_context.id, post_title, 0, post_privacy, post_unlisted, post_preview, post_contents])
+                          [user_context.id, post_title, int(time.time()),
+                           post_privacy, post_unlisted, post_preview, post_contents])
         db_connection.commit()
 
         resp = make_response(redirect(url_for("blog.post_view", post_id=1)))
