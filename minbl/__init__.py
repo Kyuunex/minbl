@@ -31,7 +31,7 @@ def server_shutdown():
     user_context = get_user_context()
     if not user_context:
         return redirect(url_for("user_management.login_form"))
-    if not user_context.permissions >= 10:
+    if not user_context.permissions >= 9:
         return "you do not have permissions to perform this action"
 
     db_connection.commit()
