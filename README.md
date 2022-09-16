@@ -43,7 +43,6 @@ import sys
 import logging
 
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/blog/")
 os.environ["MINBL_SQLITE_FILE"] = "/var/www/blog_database/minbl.sqlite3"
 
 from minbl import app as application
