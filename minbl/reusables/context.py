@@ -30,7 +30,7 @@ db_cursor.execute("""
             "timestamp"    INTEGER NOT NULL,
             "user_agent"    TEXT NOT NULL,
             "ip_address"    INTEGER NOT NULL,
-            "ipv6"    INTEGER NOT NULL
+            "is_ipv6"    INTEGER NOT NULL
         )
 """)
 db_cursor.execute("""

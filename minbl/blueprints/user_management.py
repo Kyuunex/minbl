@@ -269,7 +269,7 @@ def session_listing_page():
     if not user_context:
         return redirect(url_for("user_management.login_form"))
 
-    session_listing = tuple(db_cursor.execute("SELECT token, timestamp, user_agent, ip_address, ipv6 "
+    session_listing = tuple(db_cursor.execute("SELECT token, timestamp, user_agent, ip_address, is_ipv6 "
                                               "FROM session_tokens WHERE user_id = ?"
                                               "ORDER BY timestamp DESC", [user_context.id]))
 
