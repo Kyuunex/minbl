@@ -3,6 +3,8 @@ This file provides endpoints for everything blog related
 """
 import time
 from email import utils
+from feedgen.feed import FeedGenerator
+
 
 from flask import Blueprint, request, make_response, redirect, url_for, render_template
 
@@ -55,16 +57,22 @@ def index():
         blog_posts.append(current_post)
 
     if request.endpoint == "blog.rss":
-        rss_xml = render_template(
-            "post_listing.rss",
-            WEBSITE_CONTEXT=website_context,
-            USER_CONTEXT=user_context,
-            BLOG_POSTS=blog_posts,
-            request=request,
-            format_datetime=utils.format_datetime
-        )
-        response = make_response(rss_xml)
-        response.headers['Content-Type'] = 'application/rss+xml'
+        feed = FeedGenerator()
+        feed.title(website_context['title'])
+        feed.description('DO NOT SCRAPE MORE THAN ONCE PER 4 HOURS!')
+        feed.link(href=request.host_url)
+
+        for blog_post in blog_posts:
+            feed_entry = feed.add_entry()
+            feed_entry.title(blog_post.title)
+            feed_entry.author(name=blog_post.author_id, email=blog_post.author_id)
+            feed_entry.description(blog_post.preview)
+            feed_entry.pubDate(blog_post.timestamp_utc)
+            feed_entry.link(href=url_for("blog.post_view", post_id=blog_post.post_id, _external=True))
+            feed_entry.guid(url_for("blog.post_view", post_id=blog_post.post_id, _external=True), permalink=True)
+
+        response = make_response(feed.rss_str())
+        response.headers.set('Content-Type', 'application/rss+xml')
     else:
         normal_template = render_template(
             "post_listing.html",
