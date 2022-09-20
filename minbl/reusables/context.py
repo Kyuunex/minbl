@@ -60,15 +60,6 @@ db_cursor.execute("""
         )
 """)
 db_cursor.execute("""
-        CREATE TABLE IF NOT EXISTS "seo_id" (
-            "post_id"    TEXT NOT NULL,
-            "seo_year"    INTEGER NOT NULL,
-            "seo_month"    INTEGER NOT NULL,
-            "seo_day"    INTEGER NOT NULL,
-            "seo_string"    INTEGER NOT NULL
-        )
-""")
-db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "blog_post_attachments" (
             "post_id"    TEXT NOT NULL,
             "url"    TEXT NOT NULL,
