@@ -177,9 +177,9 @@ def registration_attempt():
 
         user_id = uuid.uuid4()
 
-        db_cursor.execute("INSERT INTO users (id, email, username, display_name, permissions) "
-                          "VALUES (?, ?, ?, ?, ?)",
-                          [str(user_id), str(email), str(username), str(display_name), perms_to_give])
+        db_cursor.execute("INSERT INTO users (id, email, username, display_name, permissions, email_is_public) "
+                          "VALUES (?, ?, ?, ?, ?, ?)",
+                          [str(user_id), str(email), str(username), str(display_name), perms_to_give, 0])
         db_connection.commit()
 
         db_cursor.execute("INSERT INTO user_passwords (user_id, password_hash, password_salt) VALUES (?, ?, ?)",

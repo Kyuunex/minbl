@@ -54,7 +54,8 @@ def index():
     for post in post_db_lookup:
         current_post = BlogPostPreview(post)
         current_post_author = tuple(
-            db_cursor.execute("SELECT id, display_name FROM users WHERE id = ?", [current_post.author_id]))
+            db_cursor.execute("SELECT id, email, username, display_name, email_is_public FROM users WHERE id = ?",
+                              [current_post.author_id]))
         current_post.author = BlogPostAuthor(current_post_author[0])
         blog_posts.append(current_post)
 
@@ -68,7 +69,11 @@ def index():
         for blog_post in blog_posts:
             feed_entry = feed.add_entry()
             feed_entry.title(blog_post.title)
-            feed_entry.author(name=blog_post.author.display_name, email=blog_post.author_id + "@" + url_parsed.hostname)
+            if blog_post.author.email_is_public:
+                author_email = blog_post.author.email
+            else:
+                author_email = blog_post.author_id + "@" + url_parsed.hostname
+            feed_entry.author(name=blog_post.author.display_name, email=author_email)
             feed_entry.description(blog_post.preview)
             feed_entry.pubDate(blog_post.timestamp_utc)
             feed_entry.link(href=url_for("blog.custom_url", post_id=blog_post.custom_url, _external=True))
@@ -170,7 +175,8 @@ def post_view(post_id):
 
     blog_post = BlogPost(post_db_lookup[0])
     blog_post_author = tuple(
-        db_cursor.execute("SELECT id, display_name FROM users WHERE id = ?", [blog_post.author_id]))
+        db_cursor.execute("SELECT id, email, username, display_name, email_is_public FROM users WHERE id = ?",
+                          [blog_post.author_id]))
     blog_post.author = BlogPostAuthor(blog_post_author[0])
 
     return render_template(

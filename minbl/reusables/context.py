@@ -20,7 +20,8 @@ db_cursor.execute("""
             "email"    TEXT,
             "username"    TEXT NOT NULL UNIQUE,
             "display_name"    TEXT NOT NULL,
-            "permissions"    INTEGER NOT NULL
+            "permissions"    INTEGER NOT NULL,
+            "email_is_public"    INTEGER NOT NULL
         )
 """)
 db_cursor.execute("""
