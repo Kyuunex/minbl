@@ -41,7 +41,16 @@ def login_form():
     if user_context:
         return redirect(url_for("blog.index"))
 
-    return render_template("login_form.html", WEBSITE_CONTEXT=website_context)
+    is_anyone_registered = tuple(db_cursor.execute("SELECT id FROM users"))
+    is_registration_enabled = tuple(db_cursor.execute(
+        "SELECT value FROM app_configuration WHERE setting = ?", ["allow_registration"])
+    )
+    allow_registration = True
+    if not is_registration_enabled:
+        if is_anyone_registered:
+            allow_registration = False
+
+    return render_template("login_form.html", WEBSITE_CONTEXT=website_context, ALLOW_REGISTRATION=allow_registration)
 
 
 @user_management.route('/account_recovery_form')

@@ -18,6 +18,9 @@
         <tr>
             <td>&nbsp;</td>
             <td><input type='checkbox' name='autout' value='yes'/>remember me<br>
+            {% if ALLOW_REGISTRATION %}
+                <a href='{{ url_for("user_management.registration_form") }}'>account registration</a><br>
+            {% endif %}
             <a href='{{ url_for("user_management.account_recovery_form") }}'>account recovery</a></td>
         </tr>
         <tr>
