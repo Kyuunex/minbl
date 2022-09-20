@@ -3,7 +3,6 @@ This file provides endpoints for everything blog related
 """
 import time
 import uuid
-from email import utils
 from feedgen.feed import FeedGenerator
 
 
