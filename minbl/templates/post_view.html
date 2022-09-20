@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block FOOTER_CONTENTS %}
-    Posted by <a href='/?author_id={{ BLOG_POST.author.id }}'>{{ BLOG_POST.author.display_name }}</a>
+    Posted by <a href='{{ url_for("blog.index", author_id=BLOG_POST.author.id) }}'>
+    {{ BLOG_POST.author.display_name }}</a>
     on {{ BLOG_POST.timestamp_utc }}
 {% endblock %}

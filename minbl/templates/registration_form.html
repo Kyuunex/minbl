@@ -3,7 +3,7 @@
 {% block HTML_CONTENTS %}
 <h2>registration</h2>
 
-<form action='/registration_attempt' method='POST'>
+<form action='{{ url_for("user_management.registration_attempt") }}' method='POST'>
 <table border='0'>
   <tr>
     <td>username</td>

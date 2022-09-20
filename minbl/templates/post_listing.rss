@@ -8,8 +8,8 @@
         {% for BLOG_POST in BLOG_POSTS %}
             <item>
                 <title>{{ BLOG_POST.title }}</title>
-                <link>{{ request.host_url }}post_view/{{ BLOG_POST.post_id }}</link>
-                <guid>{{ request.host_url }}post_view/{{ BLOG_POST.post_id }}</guid>
+                <link>{{ url_for("blog.post_view", post_id=BLOG_POST.post_id, _external=True) }}</link>
+                <guid>{{ url_for("blog.post_view", post_id=BLOG_POST.post_id, _external=True) }}</guid>
                 <description>{{ BLOG_POST.preview }}</description>
                 <pubDate>{{ format_datetime(BLOG_POST.timestamp_utc) }}</pubDate>
             </item>

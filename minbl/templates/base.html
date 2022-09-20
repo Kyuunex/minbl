@@ -11,7 +11,7 @@
                 <nav class="mainnav">
                     <div class="wslogo">
                         <h1>
-                            <a href="/">{{ WEBSITE_CONTEXT['title'] }}</a>
+                            <a href="{{ url_for("blog.index") }}">{{ WEBSITE_CONTEXT['title'] }}</a>
                         </h1>
                     </div>
                 </nav>
@@ -19,18 +19,18 @@
             <hr>
             {% block NAVBAR_CONTENTS %}
                 <div class='navbar'>
-                    <a href='/'><button>home</button></a>
-                    <a href='/rss'><button>rss</button></a>
+                    <a href='{{ url_for("blog.index") }}'><button>home</button></a>
+                    <a href='{{ url_for("blog.rss") }}'><button>rss</button></a>
                     {% if USER_CONTEXT %}
-                        <a href='/post_maker_form'><button>post maker</button></a>
-                        <a href='/my_profile'><button>profile</button></a>
-                        <a href='/account_settings'><button>account settings</button></a>
+                        <a href='{{ url_for("blog.post_maker_form") }}'><button>post maker</button></a>
+                        <a href='{{ url_for("user_management.my_profile") }}'><button>profile</button></a>
+                        <a href='{{ url_for("user_management.account_settings") }}'><button>account settings</button></a>
                         {% if USER_CONTEXT.permissions >= 9 %}
-                            <a href='/administration'><button>administration</button></a>
+                            <a href='{{ url_for("administration.admin") }}'><button>administration</button></a>
                         {% endif %}
-                        <a href='/logout'><button>logout</button></a>
+                        <a href='{{ url_for("user_management.logout") }}'><button>logout</button></a>
                     {% else %}
-                        <a href='/login_form'><button>login</button></a>
+                        <a href='{{ url_for("user_management.login_form") }}'><button>login</button></a>
                     {% endif %}
                 </div><hr />
             {% endblock %}

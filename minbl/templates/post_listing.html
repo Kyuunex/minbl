@@ -4,13 +4,14 @@
     {% for BLOG_POST in BLOG_POSTS %}
         <div class="blog_listing_one_post">
             <div class="blog_listing_one_post_title">
-                <a href='/post_view/{{ BLOG_POST.post_id }}'>{{ BLOG_POST.title }}</a>
+                <a href='{{ url_for("blog.post_view", post_id=BLOG_POST.post_id) }}'>{{ BLOG_POST.title }}</a>
             </div>
             <div class="blog_listing_one_post_preview">
                 {{ BLOG_POST.preview }}
             </div>
             <div class="blog_listing_one_post_author">
-                Posted by <a href='/?author_id={{ BLOG_POST.author.id }}'>{{ BLOG_POST.author.display_name }}</a>
+                Posted by <a href='{{ url_for("blog.index", author_id=BLOG_POST.author.id) }}'>
+                {{ BLOG_POST.author.display_name }}</a>
                 on {{ BLOG_POST.timestamp_utc }}
             </div>
         </div>

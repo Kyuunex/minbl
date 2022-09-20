@@ -2,7 +2,7 @@
 
 {% block HTML_CONTENTS %}
     <table width='100%'>
-        <form action='/make_post' method='post' enctype='multipart/form-data'>
+        <form action='{{ url_for("blog.make_post") }}' method='post' enctype='multipart/form-data'>
             <tr>
                 <td colspan='2'>
                     <input name='post_title' type='text' style='width: 100%' placeholder='Post title' />

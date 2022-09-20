@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
-<form action='/login_attempt' method='POST'>
+<form action='{{ url_for("user_management.login_attempt") }}' method='POST'>
     <table border='0'>
         <tr>
             <td>username</td>
