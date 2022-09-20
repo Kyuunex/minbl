@@ -9,7 +9,7 @@ from minbl.reusables.context import db_cursor
 class CurrentUser:
     # TODO: detect user timezone and put it here
     def __init__(self, user_context_list):
-        self.id = int(user_context_list[0])
+        self.id = str(user_context_list[0])
         self.email = str(user_context_list[1])
         self.username = str(user_context_list[2])
         self.display_name = str(user_context_list[3])
@@ -41,7 +41,7 @@ def validate_user_credentials(username, password, otp=None):
     db_query = tuple(db_cursor.execute("SELECT user_id FROM user_passwords WHERE user_id = ? AND password_hash = ?",
                                        [user_id[0][0], hashed_password]))
     if db_query:
-        return int(db_query[0][0])
+        return str(db_query[0][0])
 
     return None
 
@@ -51,7 +51,7 @@ def validate_session(session_token):
 
     id_db = tuple(db_cursor.execute("SELECT user_id FROM session_tokens WHERE token = ?", [hashed_token]))
     if id_db:
-        return int(id_db[0][0])
+        return str(id_db[0][0])
     else:
         return None
 

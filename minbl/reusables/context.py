@@ -16,17 +16,16 @@ db_connection = sqlite3.connect(SQLITE_FILE, check_same_thread=False)
 db_cursor = db_connection.cursor()
 db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "users" (
-            "id"    INTEGER NOT NULL,
+            "id"    TEXT NOT NULL,
             "email"    TEXT,
             "username"    TEXT NOT NULL UNIQUE,
             "display_name"    TEXT NOT NULL,
-            "permissions"    INTEGER NOT NULL,
-            PRIMARY KEY("id" AUTOINCREMENT)
+            "permissions"    INTEGER NOT NULL
         )
 """)
 db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "session_tokens" (
-            "user_id"    INTEGER NOT NULL,
+            "user_id"    TEXT NOT NULL,
             "token"    TEXT NOT NULL,
             "timestamp"    INTEGER NOT NULL,
             "user_agent"    TEXT NOT NULL,
@@ -36,34 +35,33 @@ db_cursor.execute("""
 """)
 db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "totp_seeds" (
-            "user_id"    INTEGER NOT NULL,
+            "user_id"    TEXT NOT NULL,
             "seed"    TEXT NOT NULL,
             "enabled"    INTEGER NOT NULL
         )
 """)
 db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "user_passwords" (
-            "user_id"    INTEGER NOT NULL,
+            "user_id"    TEXT NOT NULL,
             "password_hash"    TEXT NOT NULL,
             "password_salt"    TEXT NOT NULL
         )
 """)
 db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "blog_posts" (
-            "id"    INTEGER NOT NULL,
-            "author_id"    INTEGER NOT NULL,
+            "id"    TEXT NOT NULL,
+            "author_id"    TEXT NOT NULL,
             "title"    TEXT NOT NULL,
             "timestamp"    INTEGER NOT NULL,
             "privacy"    INTEGER NOT NULL,
             "unlisted"    INTEGER NOT NULL,
             "preview"    TEXT NOT NULL,
-            "contents"    TEXT NOT NULL,
-            PRIMARY KEY("id" AUTOINCREMENT)
+            "contents"    TEXT NOT NULL
         )
 """)
 db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "seo_id" (
-            "post_id"    INTEGER NOT NULL,
+            "post_id"    TEXT NOT NULL,
             "seo_year"    INTEGER NOT NULL,
             "seo_month"    INTEGER NOT NULL,
             "seo_day"    INTEGER NOT NULL,
@@ -72,7 +70,7 @@ db_cursor.execute("""
 """)
 db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "blog_post_attachments" (
-            "post_id"    INTEGER NOT NULL,
+            "post_id"    TEXT NOT NULL,
             "url"    TEXT NOT NULL,
             "type"    INTEGER NOT NULL
         )

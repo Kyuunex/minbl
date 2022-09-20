@@ -4,6 +4,7 @@ import hashlib
 import ipaddress
 import time
 import pyotp
+import uuid
 from datetime import datetime, timezone
 
 from minbl.reusables.rng import get_random_string
@@ -69,7 +70,7 @@ def totp_enable_form():
         return redirect(url_for("blog.index"))
 
     totp_already_enabled = tuple(db_cursor.execute("SELECT enabled FROM totp_seeds WHERE user_id = ?",
-                                                   [int(user_context.id)]))
+                                                   [str(user_context.id)]))
     if totp_already_enabled:
         return render_template(
             "account_settings.html",
@@ -127,7 +128,7 @@ def login_attempt():
         client_ip_address_is_ipv6, client_ip_address_int = ip_decode(request.remote_addr)
 
         db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?, ?, ?, ?, ?)",
-                          [int(user_id), hashed_token,
+                          [str(user_id), hashed_token,
                            int(time.time()), str(request.user_agent.string),
                            int(client_ip_address_int), int(client_ip_address_is_ipv6)])
         db_connection.commit()
@@ -174,17 +175,15 @@ def registration_attempt():
         if username_already_taken:
             return "the username is already taken!"
 
-        db_cursor.execute("INSERT INTO users (email, username, display_name, permissions) "
-                          "VALUES (?, ?, ?, ?)",
-                          [str(email), str(username), str(display_name), perms_to_give])
+        user_id = uuid.uuid4()
+
+        db_cursor.execute("INSERT INTO users (id, email, username, display_name, permissions) "
+                          "VALUES (?, ?, ?, ?, ?)",
+                          [str(user_id), str(email), str(username), str(display_name), perms_to_give])
         db_connection.commit()
 
-        # RETURNING SQL statement does not work so I have to do this
-        user_id = tuple(db_cursor.execute("SELECT id FROM users WHERE username = ?",
-                                          [str(username)]))
-
         db_cursor.execute("INSERT INTO user_passwords (user_id, password_hash, password_salt) VALUES (?, ?, ?)",
-                          [int(user_id[0][0]), str(hashed_password), password_salt])
+                          [str(user_id), str(hashed_password), password_salt])
         db_connection.commit()
 
         new_session_token = get_random_string(32)
@@ -194,7 +193,7 @@ def registration_attempt():
         # todo fix
         client_ip_address_is_ipv6, client_ip_address_int = ip_decode(request.remote_addr)
         db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?, ?, ?, ?, ?)",
-                          [int(user_id[0][0]), hashed_token,
+                          [str(user_id), hashed_token,
                            int(time.time()), str(request.user_agent.string),
                            int(client_ip_address_int), int(client_ip_address_is_ipv6)])
         db_connection.commit()
@@ -222,7 +221,7 @@ def enable_totp():
                 USER_CONTEXT=user_context,
                 NOTICE_MESSAGE="incorrect 6 digit code"
             )
-        db_cursor.execute("INSERT INTO totp_seeds VALUES (?, ?, 1)", [int(user_context.id), totp_seed])
+        db_cursor.execute("INSERT INTO totp_seeds VALUES (?, ?, 1)", [str(user_context.id), totp_seed])
         db_connection.commit()
         return render_template(
                 "account_settings.html",
@@ -243,9 +242,6 @@ def profile(user_id):
     user_context = get_user_context()
     if not user_context:
         return redirect(url_for("user_management.login_form"))
-
-    if not user_id.isdigit():
-        return make_response(redirect("https://www.youtube.com/watch?v=o-YBDTqX_ZU"))
 
     info_db = tuple(db_cursor.execute("SELECT id, email, username, display_name, permissions FROM users WHERE id = ?",
                                       [user_id]))

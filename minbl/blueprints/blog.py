@@ -2,6 +2,7 @@
 This file provides endpoints for everything blog related
 """
 import time
+import uuid
 from email import utils
 from feedgen.feed import FeedGenerator
 
@@ -38,7 +39,7 @@ def index():
     lookup_sql_binds = [user_permissions]
     lookup_conditions_str = "WHERE privacy <= ? AND unlisted = 0 "
 
-    if request.args.get('author_id') and str(request.args.get('author_id')).isdigit():
+    if request.args.get('author_id'):
         author_id = request.args.get('author_id')
         lookup_conditions_str += "AND author_id = ?"
         lookup_sql_binds.append(author_id)
@@ -119,20 +120,16 @@ def make_post():
         post_preview = request.form['post_preview']
         post_contents = request.form['post_contents']
 
-        db_cursor.execute("INSERT INTO blog_posts (author_id, title, timestamp, privacy, unlisted, preview, contents) "
-                          "VALUES (?, ?, ?, ?, ?, ?, ?) -- RETURNING id",
-                          [user_context.id, post_title, int(time.time()),
+        post_id = uuid.uuid4()
+
+        db_cursor.execute("INSERT INTO blog_posts (id, author_id, title, timestamp, "
+                          "privacy, unlisted, preview, contents) "
+                          "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                          [str(post_id), user_context.id, post_title, int(time.time()),
                            post_privacy, post_unlisted, post_preview, post_contents])
         db_connection.commit()
 
-        # RETURNING SQL statement does not work so I have to do this
-        post_id = tuple(db_cursor.execute("SELECT id FROM blog_posts "
-                                          "WHERE author_id = ? AND title = ? AND timestamp = ? "
-                                          "AND privacy = ? AND unlisted = ? AND preview = ? AND contents = ?",
-                                          [user_context.id, post_title, int(time.time()),
-                                           post_privacy, post_unlisted, post_preview, post_contents]))
-
-        resp = make_response(redirect(url_for("blog.post_view", post_id=int(post_id[0][0]))))
+        resp = make_response(redirect(url_for("blog.post_view", post_id=str(post_id))))
 
         return resp
 
