@@ -56,7 +56,8 @@ db_cursor.execute("""
             "privacy"    INTEGER NOT NULL,
             "unlisted"    INTEGER NOT NULL,
             "preview"    TEXT NOT NULL,
-            "contents"    TEXT NOT NULL
+            "contents"    TEXT NOT NULL,
+            "custom_url"    TEXT NOT NULL
         )
 """)
 db_cursor.execute("""

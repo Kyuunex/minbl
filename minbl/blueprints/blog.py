@@ -3,6 +3,7 @@ This file provides endpoints for everything blog related
 """
 import time
 import uuid
+import re
 from feedgen.feed import FeedGenerator
 
 
@@ -43,7 +44,7 @@ def index():
         lookup_conditions_str += "AND author_id = ?"
         lookup_sql_binds.append(author_id)
 
-    post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, preview "
+    post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, preview, custom_url "
                                              "FROM blog_posts "
                                              f"{lookup_conditions_str} "
                                              "ORDER BY timestamp DESC", lookup_sql_binds))
@@ -68,7 +69,7 @@ def index():
             feed_entry.author(name=blog_post.author_id, email=blog_post.author_id)
             feed_entry.description(blog_post.preview)
             feed_entry.pubDate(blog_post.timestamp_utc)
-            feed_entry.link(href=url_for("blog.post_view", post_id=blog_post.post_id, _external=True))
+            feed_entry.link(href=url_for("blog.custom_url", post_id=blog_post.custom_url, _external=True))
             feed_entry.guid(url_for("blog.post_view", post_id=blog_post.post_id, _external=True), permalink=True)
 
         response = make_response(feed.rss_str())
@@ -118,14 +119,17 @@ def make_post():
         post_unlisted = request.form['post_unlisted']
         post_preview = request.form['post_preview']
         post_contents = request.form['post_contents']
+        posix_timestamp = int(time.time())
+        date_string = datetime.date(datetime.fromtimestamp(posix_timestamp, timezone.utc)).isoformat()
 
         post_id = uuid.uuid4()
+        custom_url = date_string + "-" + re.sub(r'[^a-zA-Z0-9- ]', '', post_title).replace(" ", "-")
 
         db_cursor.execute("INSERT INTO blog_posts (id, author_id, title, timestamp, "
-                          "privacy, unlisted, preview, contents) "
-                          "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                          [str(post_id), user_context.id, post_title, int(time.time()),
-                           post_privacy, post_unlisted, post_preview, post_contents])
+                          "privacy, unlisted, preview, contents, custom_url) "
+                          "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                          [str(post_id), user_context.id, post_title, posix_timestamp,
+                           post_privacy, post_unlisted, post_preview, post_contents, custom_url])
         db_connection.commit()
 
         resp = make_response(redirect(url_for("blog.post_view", post_id=str(post_id))))
@@ -134,6 +138,7 @@ def make_post():
 
 
 @blog.route('/post_view/<post_id>')
+@blog.route('/p/<post_id>', endpoint="custom_url")
 def post_view(post_id):
     """
     This endpoint reads the database and renders an html page containing the specified blog post.
@@ -148,9 +153,16 @@ def post_view(post_id):
     else:
         user_permissions = 1
 
-    post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, privacy, unlisted, contents "
-                                             "FROM blog_posts "
-                                             "WHERE id = ? AND privacy <= ? ", [post_id, user_permissions]))
+    if request.endpoint == "blog.custom_url":
+        post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, "
+                                                 "privacy, unlisted, contents, custom_url "
+                                                 "FROM blog_posts "
+                                                 "WHERE custom_url = ? AND privacy <= ? ", [post_id, user_permissions]))
+    else:
+        post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, "
+                                                 "privacy, unlisted, contents, custom_url "
+                                                 "FROM blog_posts "
+                                                 "WHERE id = ? AND privacy <= ? ", [post_id, user_permissions]))
     if not post_db_lookup:
         return make_response(redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
 

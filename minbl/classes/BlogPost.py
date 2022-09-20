@@ -11,3 +11,4 @@ class BlogPost:
         self.unlisted = post_db_lookup[5]
         self.contents = post_db_lookup[6]
         self.timestamp_utc = datetime.fromtimestamp(self.timestamp, timezone.utc)
+        self.custom_url = post_db_lookup[7]

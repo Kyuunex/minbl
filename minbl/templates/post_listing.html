@@ -4,7 +4,7 @@
     {% for BLOG_POST in BLOG_POSTS %}
         <div class="blog_listing_one_post">
             <div class="blog_listing_one_post_title">
-                <a href='{{ url_for("blog.post_view", post_id=BLOG_POST.post_id) }}'>{{ BLOG_POST.title }}</a>
+                <a href='{{ url_for("blog.custom_url", post_id=BLOG_POST.custom_url) }}'>{{ BLOG_POST.title }}</a>
             </div>
             <div class="blog_listing_one_post_preview">
                 {{ BLOG_POST.preview }}
