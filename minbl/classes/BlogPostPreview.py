@@ -10,3 +10,4 @@ class BlogPostPreview:
         self.preview = post_db_lookup[4]
         self.timestamp_utc = datetime.fromtimestamp(self.timestamp, timezone.utc)
         self.custom_url = post_db_lookup[5]
+        self.author = None

@@ -5,6 +5,7 @@ import time
 import uuid
 import re
 from feedgen.feed import FeedGenerator
+from urllib.parse import urlparse
 
 
 from flask import Blueprint, request, make_response, redirect, url_for, render_template
@@ -62,11 +63,12 @@ def index():
         feed.title(website_context['title'])
         feed.description('DO NOT SCRAPE MORE THAN ONCE PER 4 HOURS!')
         feed.link(href=request.host_url)
+        url_parsed = urlparse(request.base_url)
 
         for blog_post in blog_posts:
             feed_entry = feed.add_entry()
             feed_entry.title(blog_post.title)
-            feed_entry.author(name=blog_post.author_id, email=blog_post.author_id)
+            feed_entry.author(name=blog_post.author.display_name, email=blog_post.author_id + "@" + url_parsed.hostname)
             feed_entry.description(blog_post.preview)
             feed_entry.pubDate(blog_post.timestamp_utc)
             feed_entry.link(href=url_for("blog.custom_url", post_id=blog_post.custom_url, _external=True))
