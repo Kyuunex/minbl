@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block HTML_CONTENTS %}
+<form action='{{ url_for("user_management.account_recovery_attempt") }}' method='POST'>
+    <table border='0'>
+        <tr>
+            <td>email</td>
+            <td><input name='email' type='text'/></td>
+        </tr>
+        <tr>
+            <td>username</td>
+            <td><input name='username' type='text'/></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><input value='&#9919; submit request' type='submit'/></td>
+        </tr>
+    </table>
+</form>
+{% endblock %}

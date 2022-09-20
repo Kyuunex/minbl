@@ -44,6 +44,15 @@ def login_form():
     return render_template("login_form.html", WEBSITE_CONTEXT=website_context)
 
 
+@user_management.route('/account_recovery_form')
+def account_recovery_form():
+    user_context = get_user_context()
+    if user_context:
+        return redirect(url_for("blog.index"))
+
+    return render_template("account_recovery_form.html", WEBSITE_CONTEXT=website_context)
+
+
 @user_management.route('/totp_enable_form')
 def totp_enable_form():
     user_context = get_user_context()
@@ -181,6 +190,11 @@ def registration_attempt():
                            int(client_ip_address_int), int(client_ip_address_is_ipv6)])
         db_connection.commit()
         return resp
+
+
+@user_management.route('/account_recovery_attempt', methods=['POST'])
+def account_recovery_attempt():
+    return make_response(redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
 
 
 @user_management.route('/enable_totp', methods=['POST'])
