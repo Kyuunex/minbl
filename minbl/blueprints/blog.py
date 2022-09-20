@@ -60,8 +60,8 @@ def index():
 
     if request.endpoint == "blog.rss":
         feed = FeedGenerator()
-        feed.title(website_context['title'])
-        feed.description('DO NOT SCRAPE MORE THAN ONCE PER 4 HOURS!')
+        feed.title(website_context["title"])
+        feed.description("DO NOT SCRAPE MORE THAN ONCE PER 4 HOURS!")
         feed.link(href=request.host_url)
         url_parsed = urlparse(request.base_url)
 
@@ -75,7 +75,7 @@ def index():
             feed_entry.guid(url_for("blog.post_view", post_id=blog_post.post_id, _external=True), permalink=True)
 
         response = make_response(feed.rss_str())
-        response.headers.set('Content-Type', 'application/rss+xml')
+        response.headers.set("Content-Type", "application/rss+xml")
     else:
         normal_template = render_template(
             "post_listing.html",
