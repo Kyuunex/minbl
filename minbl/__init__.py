@@ -3,7 +3,7 @@
 This file stitches the whole flask app together
 """
 
-from flask import Flask, url_for, redirect
+from flask import Flask, url_for, redirect, render_template
 
 from minbl.reusables.context import db_connection
 from minbl.reusables.context import website_context
@@ -37,3 +37,9 @@ def server_shutdown():
     db_connection.commit()
     db_connection.close()
     return "server ready for shutdown"
+
+
+@app.route('/cookies')
+def cookies():
+    user_context = get_user_context()
+    return render_template("cookies.html", WEBSITE_CONTEXT=website_context, USER_CONTEXT=user_context)
