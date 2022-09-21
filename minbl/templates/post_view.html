@@ -4,7 +4,7 @@
     <div class="blog_post_title"><h2>{{ BLOG_POST.title }}</h2></div>
 
     <div class="blog_post_contents">
-        {{ BLOG_POST.contents }}
+        {{ BLOG_POST.contents | safe }}
     </div>
 
 {% endblock %}
