@@ -190,7 +190,8 @@ def post_view(post_id):
         "post_view.html",
         WEBSITE_CONTEXT=website_context,
         USER_CONTEXT=user_context,
-        BLOG_POST=blog_post
+        BLOG_POST=blog_post,
+        USER_PERMISSIONS=user_permissions
     )
 
 

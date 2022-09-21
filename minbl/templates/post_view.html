@@ -28,7 +28,7 @@
 {% endblock %}
 
 {% block FOOTER_CONTENTS %}
-    {% if USER_CONTEXT.permissions >= 9 %}
+    {% if USER_PERMISSIONS >= 5 %}
         <a href='{{ url_for("blog.post_edit_form", post_id=BLOG_POST.post_id) }}'><button>edit</button></a>
         <a href='{{ url_for("blog.delete_post", post_id=BLOG_POST.post_id) }}'><button>delete</button></a><br>
     {% endif %}
