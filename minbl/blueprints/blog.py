@@ -103,6 +103,8 @@ def post_maker_form():
     user_context = get_user_context()
     if not user_context:
         return redirect(url_for("user_management.login_form"))
+    if not user_context.permissions >= 5:
+        return "you do not have permissions to perform this action"
 
     return render_template("post_maker_form.html", WEBSITE_CONTEXT=website_context, USER_CONTEXT=user_context)
 
@@ -119,6 +121,8 @@ def make_post():
     user_context = get_user_context()
     if not user_context:
         return redirect(url_for("user_management.login_form"))
+    if not user_context.permissions >= 5:
+        return "you do not have permissions to perform this action"
 
     if request.method == 'POST':
         post_title = request.form['post_title']
