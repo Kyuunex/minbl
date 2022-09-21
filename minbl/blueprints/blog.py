@@ -162,12 +162,12 @@ def post_view(post_id):
 
     if request.endpoint == "blog.custom_url":
         post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, "
-                                                 "privacy, unlisted, contents, custom_url "
+                                                 "privacy, unlisted, preview, contents, custom_url "
                                                  "FROM blog_posts "
                                                  "WHERE custom_url = ? AND privacy <= ? ", [post_id, user_permissions]))
     else:
         post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, "
-                                                 "privacy, unlisted, contents, custom_url "
+                                                 "privacy, unlisted, preview, contents, custom_url "
                                                  "FROM blog_posts "
                                                  "WHERE id = ? AND privacy <= ? ", [post_id, user_permissions]))
     if not post_db_lookup:
@@ -185,3 +185,78 @@ def post_view(post_id):
         USER_CONTEXT=user_context,
         BLOG_POST=blog_post
     )
+
+
+@blog.route('/post_edit_form/<post_id>')
+def post_edit_form(post_id):
+    user_context = get_user_context()
+    if not user_context:
+        return redirect(url_for("user_management.login_form"))
+    if not user_context.permissions >= 5:
+        return "you do not have permissions to perform this action"
+    user_permissions = user_context.permissions
+
+    post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, "
+                                             "privacy, unlisted, preview, contents, custom_url "
+                                             "FROM blog_posts "
+                                             "WHERE id = ? AND privacy <= ? ", [post_id, user_permissions]))
+
+    if not post_db_lookup:
+        return make_response(redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
+
+    blog_post = BlogPost(post_db_lookup[0])
+
+    return render_template(
+        "post_edit_form.html",
+        WEBSITE_CONTEXT=website_context,
+        USER_CONTEXT=user_context,
+        BLOG_POST=blog_post
+    )
+
+
+@blog.route('/delete_post/<post_id>')
+def delete_post(post_id):
+    user_context = get_user_context()
+    if not user_context:
+        return redirect(url_for("user_management.login_form"))
+    if not user_context.permissions >= 5:
+        return "you do not have permissions to perform this action"
+
+    db_cursor.execute("DELETE FROM blog_posts WHERE id = ?", [post_id])
+
+    return redirect(url_for("blog.index"))
+
+
+@blog.route('/edit_post/<post_id>', methods=['POST'])
+def edit_post(post_id):
+    """
+    This endpoint handles the POST data submitted through post_maker_form.
+    It will process user input and properly insert it into the database.
+
+    :return: a redirect to an endpoint used to view the newly made post
+    """
+
+    user_context = get_user_context()
+    if not user_context:
+        return redirect(url_for("user_management.login_form"))
+    if not user_context.permissions >= 5:
+        return "you do not have permissions to perform this action"
+
+    if request.method == 'POST':
+        post_title = request.form['post_title']
+        post_privacy = request.form['post_privacy']
+        post_unlisted = request.form['post_unlisted']
+        post_preview = request.form['post_preview']
+        post_contents = request.form['post_contents']
+
+        custom_url = request.form['custom_url']
+
+        db_cursor.execute("UPDATE blog_posts "
+                          "SET title = ?, privacy = ?, unlisted = ?, preview = ?, contents = ?, custom_url = ? "
+                          "WHERE id = ?",
+                          [post_title, post_privacy, post_unlisted, post_preview, post_contents, custom_url, post_id])
+        db_connection.commit()
+
+        resp = make_response(redirect(url_for("blog.custom_url", post_id=custom_url)))
+
+        return resp

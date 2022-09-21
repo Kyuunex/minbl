@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block HTML_CONTENTS %}
+    <table width='100%'>
+        <form action='{{ url_for("blog.edit_post", post_id=BLOG_POST.post_id) }}' method='post' enctype='multipart/form-data'>
+            <tr>
+                <td colspan='2'>
+                    Title:
+                    <input name='post_title' type='text' style='width: 100%' placeholder='Post title' value='{{ BLOG_POST.title }}'/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='2'>
+                    Custom URL:
+                    <input name='custom_url' type='text' style='width: 100%' placeholder='Post title' value='{{ BLOG_POST.custom_url }}'/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Post privacy:
+                </td>
+                <td>
+                    <select name='post_privacy'>
+                        <option value='0'{% if BLOG_POST.privacy == 0 %} selected{% endif %}>Public</option>
+                        <option value='2'{% if BLOG_POST.privacy == 2 %} selected{% endif %}>Members</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Unlisted:
+                </td>
+                <td>
+                    <select name='post_unlisted'>
+                        <option value='1'{% if BLOG_POST.unlisted == 1 %} selected{% endif %}>Yes</option>
+                        <option value='0'{% if BLOG_POST.unlisted == 0 %} selected{% endif %}>No</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='2'>
+                    Preview:
+                    <textarea name='post_preview' style='width: 100%; height: 35%' placeholder='Post preview'>{{ BLOG_POST.preview }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='2'>
+                    Post content:
+                    <textarea name='post_contents' style='width: 100%; height: 35%' placeholder='Post content'>{{ BLOG_POST.contents }}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='2'>
+                    <input type='submit' value='&#9998; Post' />
+                    Tip: You can use HTML here. Also leave blank what's not applicable.
+                </td>
+            </tr>
+        </form>
+    </table>
+{% endblock %}
