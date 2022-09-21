@@ -143,7 +143,7 @@ def make_post():
                            post_privacy, post_unlisted, post_preview, post_contents, custom_url])
         db_connection.commit()
 
-        resp = make_response(redirect(url_for("blog.post_view", post_id=str(post_id))))
+        resp = make_response(redirect(url_for("blog.custom_url", post_id=custom_url)))
 
         return resp
 
