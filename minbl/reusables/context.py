@@ -58,7 +58,11 @@ db_cursor.execute("""
             "unlisted"    INTEGER NOT NULL,
             "preview"    TEXT NOT NULL,
             "contents"    TEXT NOT NULL,
-            "custom_url"    TEXT NOT NULL
+            "custom_url"    TEXT NOT NULL,
+            "last_edit_timestamp"    INTEGER,
+            "category"    TEXT,
+            "tags"    TEXT,
+            "cover_image_url"    TEXT
         )
 """)
 db_cursor.execute("""
