@@ -2,7 +2,11 @@
 
 {% block HTML_CONTENTS %}
 <h2>registration</h2>
-
+<div class="cookie_notice_section">
+    login and registration functionality requires the use of cookies.<br>
+    by logging in or registering, you agree for cookies to be set in your browser.
+    <a href="{{ url_for("cookies") }}">learn more</a>
+</div>
 <form action='{{ url_for("user_management.registration_attempt") }}' method='POST'>
 <table border='0'>
   <tr>

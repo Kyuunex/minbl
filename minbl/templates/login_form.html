@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
+<div class="cookie_notice_section">
+    login and registration functionality requires the use of cookies.<br>
+    by logging in or registering, you agree for cookies to be set in your browser.
+    <a href="{{ url_for("cookies") }}">learn more</a>
+</div>
+<div class="login_form">
 <form action='{{ url_for("user_management.login_attempt") }}' method='POST'>
     <table border='0'>
         <tr>
@@ -29,4 +35,5 @@
         </tr>
     </table>
 </form>
+</div>
 {% endblock %}
