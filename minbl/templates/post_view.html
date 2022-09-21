@@ -1,5 +1,23 @@
 {% extends "base.html" %}
 
+{% block HEAD %}
+    <title>{{ BLOG_POST.title }} - {{ WEBSITE_CONTEXT['title'] }}</title>
+    <meta property="og:title" content="{{ BLOG_POST.title }}" />
+    <meta property="og:type" content="article" />
+    <!--meta property="og:image" content="" /-->
+    <meta property="og:url" content="{{ url_for("blog.post_view", post_id=BLOG_POST.post_id) }}" />
+
+    <meta property="og:description" content="{{ BLOG_POST.preview }}" />
+    <meta property="og:site_name" content="{{ WEBSITE_CONTEXT['title'] }}" />
+
+    <meta property="article:published_time" content="{{ BLOG_POST.timestamp_utc.isoformat() }}" />
+    <meta property="article:modified_time" content="{{ BLOG_POST.timestamp_utc.isoformat() }}" />
+    <!--meta property="article:expiration_time" content="{{ BLOG_POST.timestamp_utc.isoformat() }}" /-->
+    <meta property="article:author" content="{{ BLOG_POST.author.display_name }}" />
+    <meta property="article:section" content="Technology" />
+    <meta property="article:tag" content="tech" />
+{% endblock %}
+
 {% block HTML_CONTENTS %}
     <div class="blog_post_title"><h2>{{ BLOG_POST.title }}</h2></div>
 
