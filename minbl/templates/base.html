@@ -1,6 +1,8 @@
 <html>
     <head>
-        <title>{{ WEBSITE_CONTEXT['title'] }}</title>
+        {% block HEAD %}
+            <title>{{ WEBSITE_CONTEXT['title'] }}</title>
+        {% endblock %}
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
         <meta name=viewport content="width=device-width, initial-scale=1">
     </head>
