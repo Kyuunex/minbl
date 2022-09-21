@@ -17,6 +17,7 @@ from minbl.reusables.user_validation import get_user_context
 
 from minbl.classes.BlogPost import *
 from minbl.classes.BlogPostAuthor import *
+from minbl.classes.BlogPostDeletedAuthor import *
 from minbl.classes.BlogPostPreview import *
 
 blog = Blueprint("blog", __name__)
@@ -59,7 +60,10 @@ def index():
         current_post_author = tuple(
             db_cursor.execute("SELECT id, email, username, display_name, email_is_public FROM users WHERE id = ?",
                               [current_post.author_id]))
-        current_post.author = BlogPostAuthor(current_post_author[0])
+        if current_post_author:
+            current_post.author = BlogPostAuthor(current_post_author[0])
+        else:
+            current_post.author = BlogPostDeletedAuthor(current_post.author_id)
         blog_posts.append(current_post)
 
     if request.endpoint == "blog.rss":
@@ -184,7 +188,10 @@ def post_view(post_id):
     blog_post_author = tuple(
         db_cursor.execute("SELECT id, email, username, display_name, email_is_public FROM users WHERE id = ?",
                           [blog_post.author_id]))
-    blog_post.author = BlogPostAuthor(blog_post_author[0])
+    if blog_post_author:
+        blog_post.author = BlogPostAuthor(blog_post_author[0])
+    else:
+        blog_post.author = BlogPostDeletedAuthor(blog_post.author_id)
 
     return render_template(
         "post_view.html",
