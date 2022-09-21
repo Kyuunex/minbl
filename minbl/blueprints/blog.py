@@ -38,14 +38,17 @@ def index():
         user_permissions = 1
 
     lookup_sql_binds = [user_permissions]
-    lookup_conditions_str = "WHERE privacy <= ? AND unlisted = 0 "
+    lookup_conditions_str = "WHERE privacy <= ? "
+    if not user_permissions >= 5:
+        lookup_conditions_str += "AND unlisted = 0 "
 
     if request.args.get('author_id'):
         author_id = request.args.get('author_id')
         lookup_conditions_str += "AND author_id = ?"
         lookup_sql_binds.append(author_id)
 
-    post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, preview, custom_url "
+    post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, "
+                                             "privacy, unlisted, preview, contents, custom_url "
                                              "FROM blog_posts "
                                              f"{lookup_conditions_str} "
                                              "ORDER BY timestamp DESC", lookup_sql_binds))
