@@ -10,7 +10,7 @@ setup(
     ],
     include_package_data=True,
     package_data={'minbl': ['static/*', 'templates/*']},
-    version="0.5.1",
+    version="0.6.0",
     description='A minimalist blog',
     author='Kyuunex',
     author_email='kyuunex@protonmail.ch',
