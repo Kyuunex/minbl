@@ -49,7 +49,8 @@ def index():
         lookup_sql_binds.append(author_id)
 
     post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, "
-                                             "privacy, unlisted, preview, contents, custom_url "
+                                             "privacy, unlisted, preview, contents, custom_url, "
+                                             "last_edit_timestamp, category, tags, cover_image_url "
                                              "FROM blog_posts "
                                              f"{lookup_conditions_str} "
                                              "ORDER BY timestamp DESC", lookup_sql_binds))
@@ -173,12 +174,14 @@ def post_view(post_id):
 
     if request.endpoint == "blog.custom_url":
         post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, "
-                                                 "privacy, unlisted, preview, contents, custom_url "
+                                                 "privacy, unlisted, preview, contents, custom_url, "
+                                                 "last_edit_timestamp, category, tags, cover_image_url "
                                                  "FROM blog_posts "
                                                  "WHERE custom_url = ? AND privacy <= ? ", [post_id, user_permissions]))
     else:
         post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, "
-                                                 "privacy, unlisted, preview, contents, custom_url "
+                                                 "privacy, unlisted, preview, contents, custom_url, "
+                                                 "last_edit_timestamp, category, tags, cover_image_url "
                                                  "FROM blog_posts "
                                                  "WHERE id = ? AND privacy <= ? ", [post_id, user_permissions]))
     if not post_db_lookup:
@@ -213,7 +216,8 @@ def post_edit_form(post_id):
     user_permissions = user_context.permissions
 
     post_db_lookup = tuple(db_cursor.execute("SELECT id, author_id, title, timestamp, "
-                                             "privacy, unlisted, preview, contents, custom_url "
+                                             "privacy, unlisted, preview, contents, custom_url, "
+                                             "last_edit_timestamp, category, tags, cover_image_url "
                                              "FROM blog_posts "
                                              "WHERE id = ? AND privacy <= ? ", [post_id, user_permissions]))
 

@@ -13,4 +13,8 @@ class BlogPost:
         self.contents = post_db_lookup[7]
         self.timestamp_utc = datetime.fromtimestamp(self.timestamp, timezone.utc)
         self.custom_url = post_db_lookup[8]
+        self.last_edit_timestamp = post_db_lookup[9]
+        self.category = post_db_lookup[10]
+        self.tags = post_db_lookup[11]
+        self.cover_image_url = post_db_lookup[12]
         self.author = None
