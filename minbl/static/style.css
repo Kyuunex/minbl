@@ -114,6 +114,7 @@ th {
     display: block;
     margin-left: auto;
     margin-right: auto;
+	padding-bottom: 5px;
 }
 
 .login_form {
@@ -127,19 +128,30 @@ th {
 }
 
 .blog_listing_one_post {
-	padding-bottom: 20px;
+	border:1px solid #FFD866;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding: 5px;
 }
 
 .blog_listing_one_post_title {
 	font-weight: bold;
 	font-size: medium;
 	background-color: #403a42;
+	padding: 5px;
 }
 
 .blog_listing_one_post_preview {
 	font-weight: normal;
 	font-size: small;
 	background-color: #48424a;
+	padding: 5px;
+}
+
+.blog_listing_one_post_author {
+	font-weight: normal;
+	font-size: small;
+	padding: 5px;
 }
 
 .session_listing_one_session {
