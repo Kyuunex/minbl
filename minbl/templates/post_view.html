@@ -23,7 +23,7 @@
     <div class="blog_post_title"><h2>{{ BLOG_POST.title }}</h2></div>
 
     <div class="blog_post_contents">
-        {{ markdown2.markdown(BLOG_POST.contents, extras=["fenced-code-blocks"]) | safe }}
+        {{ markdown2.markdown(BLOG_POST.contents, extras=["fenced-code-blocks", "tables"]) | safe }}
     </div>
 
 {% endblock %}

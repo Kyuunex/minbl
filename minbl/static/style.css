@@ -69,8 +69,6 @@ select {
 table {
 	margin: 0 0 15px 0;
 	border-collapse: collapse;
-    margin-left:auto; 
-	margin-right:auto;
 }
 
 tr {
@@ -115,6 +113,11 @@ th {
 .login_form {
 	padding-bottom: 10px;
 	padding-top: 10px;
+}
+
+.login_form_table {
+    margin-left:auto;
+	margin-right:auto;
 }
 
 .blog_listing_one_post {
