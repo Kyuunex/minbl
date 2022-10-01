@@ -19,5 +19,6 @@ setup(
         'flask',
         'pyotp',
         'feedgen',
+        'markdown2[all]',
     ],
 )

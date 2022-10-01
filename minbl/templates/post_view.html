@@ -16,13 +16,14 @@
     <meta property="article:author" content="{{ BLOG_POST.author.display_name }}" />
     <meta property="article:section" content="Technology" />
     <meta property="article:tag" content="tech" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='codehilite-monokai.css') }}">
 {% endblock %}
 
 {% block HTML_CONTENTS %}
     <div class="blog_post_title"><h2>{{ BLOG_POST.title }}</h2></div>
 
     <div class="blog_post_contents">
-        {{ BLOG_POST.contents | safe }}
+        {{ markdown2.markdown(BLOG_POST.contents, extras=["fenced-code-blocks"]) | safe }}
     </div>
 
 {% endblock %}

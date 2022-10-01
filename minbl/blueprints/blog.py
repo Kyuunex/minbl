@@ -4,6 +4,7 @@ This file provides endpoints for everything blog related
 import time
 import uuid
 import re
+import markdown2
 from feedgen.feed import FeedGenerator
 from urllib.parse import urlparse
 
@@ -198,7 +199,8 @@ def post_view(post_id):
         WEBSITE_CONTEXT=website_context,
         USER_CONTEXT=user_context,
         BLOG_POST=blog_post,
-        USER_PERMISSIONS=user_permissions
+        USER_PERMISSIONS=user_permissions,
+        markdown2=markdown2
     )
 
 
