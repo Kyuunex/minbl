@@ -136,6 +136,8 @@ def make_post():
         post_title = request.form['post_title']
         post_privacy = request.form['post_privacy']
         post_unlisted = request.form['post_unlisted']
+        category = request.form['category']
+        tags = request.form['tags']
         cover_image_url = request.form['cover_image_url']
         post_preview = request.form['post_preview']
         post_contents = request.form['post_contents']
@@ -146,11 +148,12 @@ def make_post():
         custom_url = date_string + "-" + re.sub(r'[^a-zA-Z0-9- ]', '', post_title).replace(" ", "-")
 
         db_cursor.execute("INSERT INTO blog_posts (id, author_id, title, timestamp, "
-                          "privacy, unlisted, preview, contents, custom_url, last_edit_timestamp, cover_image_url) "
-                          "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                          "privacy, unlisted, preview, contents, custom_url, "
+                          "last_edit_timestamp, category, tags, cover_image_url) "
+                          "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                           [str(post_id), user_context.id, post_title, posix_timestamp,
-                           post_privacy, post_unlisted, post_preview, post_contents, custom_url, posix_timestamp,
-                           cover_image_url])
+                           post_privacy, post_unlisted, post_preview, post_contents, custom_url,
+                           posix_timestamp, category, tags, cover_image_url])
         db_connection.commit()
 
         resp = make_response(redirect(url_for("blog.custom_url", post_id=custom_url)))
@@ -268,6 +271,8 @@ def edit_post(post_id):
         post_title = request.form['post_title']
         post_privacy = request.form['post_privacy']
         post_unlisted = request.form['post_unlisted']
+        category = request.form['category']
+        tags = request.form['tags']
         cover_image_url = request.form['cover_image_url']
         post_preview = request.form['post_preview']
         post_contents = request.form['post_contents']
@@ -277,10 +282,10 @@ def edit_post(post_id):
 
         db_cursor.execute("UPDATE blog_posts "
                           "SET title = ?, privacy = ?, unlisted = ?, preview = ?, contents = ?, custom_url = ?, "
-                          "last_edit_timestamp = ?, cover_image_url = ? "
+                          "last_edit_timestamp = ?, category = ?, tags = ?, cover_image_url = ? "
                           "WHERE id = ?",
                           [post_title, post_privacy, post_unlisted, post_preview, post_contents,
-                           custom_url, posix_timestamp, cover_image_url, post_id])
+                           custom_url, posix_timestamp, category, tags, cover_image_url, post_id])
         db_connection.commit()
 
         resp = make_response(redirect(url_for("blog.custom_url", post_id=custom_url)))
