@@ -145,10 +145,10 @@ def make_post():
         custom_url = date_string + "-" + re.sub(r'[^a-zA-Z0-9- ]', '', post_title).replace(" ", "-")
 
         db_cursor.execute("INSERT INTO blog_posts (id, author_id, title, timestamp, "
-                          "privacy, unlisted, preview, contents, custom_url) "
-                          "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                          "privacy, unlisted, preview, contents, custom_url, last_edit_timestamp) "
+                          "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                           [str(post_id), user_context.id, post_title, posix_timestamp,
-                           post_privacy, post_unlisted, post_preview, post_contents, custom_url])
+                           post_privacy, post_unlisted, post_preview, post_contents, custom_url, posix_timestamp])
         db_connection.commit()
 
         resp = make_response(redirect(url_for("blog.custom_url", post_id=custom_url)))
@@ -265,13 +265,16 @@ def edit_post(post_id):
         post_unlisted = request.form['post_unlisted']
         post_preview = request.form['post_preview']
         post_contents = request.form['post_contents']
+        posix_timestamp = int(time.time())
 
         custom_url = request.form['custom_url']
 
         db_cursor.execute("UPDATE blog_posts "
-                          "SET title = ?, privacy = ?, unlisted = ?, preview = ?, contents = ?, custom_url = ? "
+                          "SET title = ?, privacy = ?, unlisted = ?, preview = ?, contents = ?, custom_url = ?, "
+                          "last_edit_timestamp = ? "
                           "WHERE id = ?",
-                          [post_title, post_privacy, post_unlisted, post_preview, post_contents, custom_url, post_id])
+                          [post_title, post_privacy, post_unlisted, post_preview, post_contents,
+                           custom_url, posix_timestamp, post_id])
         db_connection.commit()
 
         resp = make_response(redirect(url_for("blog.custom_url", post_id=custom_url)))
