@@ -19,7 +19,6 @@ from minbl.reusables.user_validation import get_user_context
 from minbl.classes.BlogPost import *
 from minbl.classes.BlogPostAuthor import *
 from minbl.classes.BlogPostDeletedAuthor import *
-from minbl.classes.BlogPostPreview import *
 
 blog = Blueprint("blog", __name__)
 
@@ -57,7 +56,7 @@ def index():
 
     blog_posts = []
     for post in post_db_lookup:
-        current_post = BlogPostPreview(post)
+        current_post = BlogPost(post)
         current_post_author = tuple(
             db_cursor.execute("SELECT id, email, username, display_name, email_is_public FROM users WHERE id = ?",
                               [current_post.author_id]))
