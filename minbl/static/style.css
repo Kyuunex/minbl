@@ -110,6 +110,12 @@ th {
 	background-color: #2D2A2E;
 }
 
+.blog_post_cover_image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .login_form {
 	padding-bottom: 10px;
 	padding-top: 10px;

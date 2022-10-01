@@ -4,7 +4,9 @@
     <title>{{ BLOG_POST.title }} - {{ WEBSITE_CONTEXT['title'] }}</title>
     <meta property="og:title" content="{{ BLOG_POST.title }}" />
     <meta property="og:type" content="article" />
-    <!--meta property="og:image" content="" /-->
+    {% if BLOG_POST.cover_image_url %}
+        <meta property="og:image" content="{{ BLOG_POST.cover_image_url }}" />
+    {% endif %}
     <meta property="og:url" content="{{ url_for("blog.post_view", post_id=BLOG_POST.post_id) }}" />
 
     <meta property="og:description" content="{{ BLOG_POST.preview }}" />
@@ -21,6 +23,11 @@
 
 {% block HTML_CONTENTS %}
     <div class="blog_post_title"><h2>{{ BLOG_POST.title }}</h2></div>
+
+    {% if BLOG_POST.cover_image_url %}
+        <img src="{{ BLOG_POST.cover_image_url }}" alt="{{ BLOG_POST.title }}" class="blog_post_cover_image"/>
+        <hr />
+    {% endif %}
 
     <div class="blog_post_contents">
         {{ markdown2.markdown(BLOG_POST.contents, extras=["fenced-code-blocks", "tables"]) | safe }}
