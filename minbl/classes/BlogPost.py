@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 
 class BlogPost:
@@ -14,6 +14,10 @@ class BlogPost:
         self.timestamp_utc = datetime.fromtimestamp(self.timestamp, timezone.utc)
         self.custom_url = post_db_lookup[8]
         self.last_edit_timestamp = post_db_lookup[9]
+        if self.last_edit_timestamp:
+            self.last_edit_timestamp_utc = datetime.fromtimestamp(self.last_edit_timestamp, timezone.utc)
+        else:
+            self.last_edit_timestamp_utc = self.timestamp_utc
         self.category = post_db_lookup[10]
         self.tags = post_db_lookup[11]
         self.cover_image_url = post_db_lookup[12]

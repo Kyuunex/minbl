@@ -11,7 +11,7 @@
     <meta property="og:site_name" content="{{ WEBSITE_CONTEXT['title'] }}" />
 
     <meta property="article:published_time" content="{{ BLOG_POST.timestamp_utc.isoformat() }}" />
-    <meta property="article:modified_time" content="{{ BLOG_POST.timestamp_utc.isoformat() }}" />
+    <meta property="article:modified_time" content="{{ BLOG_POST.last_edit_timestamp_utc.isoformat() }}" />
     <!--meta property="article:expiration_time" content="{{ BLOG_POST.timestamp_utc.isoformat() }}" /-->
     <meta property="article:author" content="{{ BLOG_POST.author.display_name }}" />
     <meta property="article:section" content="Technology" />
@@ -36,4 +36,7 @@
     Posted by <a href='{{ url_for("blog.index", author_id=BLOG_POST.author.id) }}'>
     {{ BLOG_POST.author.display_name }}</a>
     on {{ BLOG_POST.timestamp_utc }}
+    {% if (BLOG_POST.timestamp) != (BLOG_POST.last_edit_timestamp) %}
+        <br>Last edited on: {{ BLOG_POST.last_edit_timestamp_utc }}
+    {% endif %}
 {% endblock %}
