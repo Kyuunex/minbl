@@ -21,4 +21,5 @@ class BlogPost:
         self.category = post_db_lookup[10]
         self.tags = post_db_lookup[11]
         self.cover_image_url = post_db_lookup[12]
+        self.expiration_time_utc = self.last_edit_timestamp_utc + timedelta(hours=175320)
         self.author = None
