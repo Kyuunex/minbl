@@ -124,7 +124,7 @@ def login_attempt():
         resp = make_response(redirect(url_for("blog.index")))
 
         if bool(request.form.get('remember_me', 0)):
-            cookie_age = 315360000
+            cookie_age = 34560000
         else:
             cookie_age = None
 
@@ -194,7 +194,7 @@ def registration_attempt():
 
         new_session_token = get_random_string(32)
         resp = make_response(redirect(url_for("blog.index")))
-        resp.set_cookie('session_token', new_session_token, max_age=315360000)
+        resp.set_cookie('session_token', new_session_token, max_age=34560000)
         hashed_token = hashlib.sha256(new_session_token.encode()).hexdigest()
         # todo fix
         client_ip_address_is_ipv6, client_ip_address_int = ip_decode(request)
@@ -260,7 +260,7 @@ def logout():
         return redirect(url_for("user_management.login_form"))
 
     resp = make_response(redirect(url_for("user_management.login_form")))
-    resp.set_cookie('session_token', '', max_age=315360000)
+    resp.set_cookie('session_token', '', max_age=34560000)
 
     hashed_token = hashlib.sha256((request.cookies['session_token']).encode()).hexdigest()
 
