@@ -125,17 +125,20 @@ def login_attempt():
 
         if bool(request.form.get('remember_me', 0)):
             cookie_age = 34560000
+            expiry_timestamp = int(time.time()) + cookie_age
         else:
             cookie_age = None
+            expiry_timestamp = int(time.time()) + 172800
 
         resp.set_cookie('session_token', new_session_token, max_age=cookie_age)
 
         hashed_token = hashlib.sha256(new_session_token.encode()).hexdigest()
         client_ip_address_is_ipv6, client_ip_address_int = ip_decode(request)
+        token_id = uuid.uuid4()
 
-        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?, ?, ?, ?, ?)",
-                          [str(user_id), hashed_token,
-                           int(time.time()), str(request.user_agent.string),
+        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                          [str(user_id), str(token_id), hashed_token,
+                           int(time.time()), expiry_timestamp, str(request.user_agent.string),
                            int(client_ip_address_int), int(client_ip_address_is_ipv6)])
         db_connection.commit()
         return resp
@@ -195,12 +198,14 @@ def registration_attempt():
         new_session_token = get_random_string(32)
         resp = make_response(redirect(url_for("blog.index")))
         resp.set_cookie('session_token', new_session_token, max_age=34560000)
+        token_id = uuid.uuid4()
+        expiry_timestamp = int(time.time()) + 34560000
         hashed_token = hashlib.sha256(new_session_token.encode()).hexdigest()
         # todo fix
         client_ip_address_is_ipv6, client_ip_address_int = ip_decode(request)
-        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?, ?, ?, ?, ?)",
-                          [str(user_id), hashed_token,
-                           int(time.time()), str(request.user_agent.string),
+        db_cursor.execute("INSERT INTO session_tokens VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                          [str(user_id), str(token_id), hashed_token,
+                           int(time.time()), expiry_timestamp, str(request.user_agent.string),
                            int(client_ip_address_int), int(client_ip_address_is_ipv6)])
         db_connection.commit()
         return resp
@@ -275,7 +280,8 @@ def session_listing_page():
     if not user_context:
         return redirect(url_for("user_management.login_form"))
 
-    session_listing = tuple(db_cursor.execute("SELECT token, timestamp, user_agent, ip_address, is_ipv6 "
+    session_listing = tuple(db_cursor.execute("SELECT token, timestamp, user_agent, ip_address, is_ipv6, "
+                                              "token_id, expiry_timestamp "
                                               "FROM session_tokens WHERE user_id = ?"
                                               "ORDER BY timestamp DESC", [user_context.id]))
 
@@ -288,3 +294,17 @@ def session_listing_page():
         ipaddress=ipaddress,
         timezone=timezone
     )
+
+
+@user_management.route('/destroy_session_token', methods=['GET'])
+def destroy_session_token():
+    if not get_user_context():
+        return redirect(url_for("user_management.login_form"))
+
+    resp = make_response(redirect(url_for("user_management.session_listing_page")))
+
+    token_id = request.args.get('token_id')
+
+    db_cursor.execute("DELETE FROM session_tokens WHERE token_id = ?", [token_id])
+    db_connection.commit()
+    return resp

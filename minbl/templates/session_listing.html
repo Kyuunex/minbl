@@ -14,7 +14,13 @@
                 {{ SESSION[2] }}
             </div>
             <div class="session_listing_one_session_timestamp">
-                {{ datetime.fromtimestamp(SESSION[1], timezone.utc) }}
+                Created at: {{ datetime.fromtimestamp(SESSION[1], timezone.utc) }},
+                Expires at: {{ datetime.fromtimestamp(SESSION[6], timezone.utc) }}
+            </div>
+            <div class="session_listing_one_destroy_button">
+                <a href="{{ url_for("user_management.destroy_session_token", token_id=SESSION[5]) }}">
+                    <button>Invalidate session</button>
+                </a>
             </div>
         </div>
     {% endfor %}

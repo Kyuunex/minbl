@@ -27,8 +27,10 @@ db_cursor.execute("""
 db_cursor.execute("""
         CREATE TABLE IF NOT EXISTS "session_tokens" (
             "user_id"    TEXT NOT NULL,
+            "token_id"    TEXT NOT NULL,
             "token"    TEXT NOT NULL,
             "timestamp"    INTEGER NOT NULL,
+            "expiry_timestamp"    INTEGER NOT NULL,
             "user_agent"    TEXT NOT NULL,
             "ip_address"    INTEGER NOT NULL,
             "is_ipv6"    INTEGER NOT NULL
