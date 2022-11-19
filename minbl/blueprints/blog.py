@@ -71,7 +71,7 @@ def index():
     if request.endpoint == "blog.rss" or request.endpoint == "blog.rss_deprecated":
         feed = FeedGenerator()
         feed.title(website_context["title"])
-        feed.description("DO NOT SCRAPE MORE THAN ONCE PER 4 HOURS!")
+        feed.description("In cases of constant automated scrapers, avoid scraping more than once per few hours.")
         feed.link(href=request.host_url)
         url_parsed = urlparse(request.base_url)
 
