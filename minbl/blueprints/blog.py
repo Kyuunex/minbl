@@ -24,7 +24,8 @@ blog = Blueprint("blog", __name__)
 
 
 @blog.route('/', methods=['GET', 'POST'])
-@blog.route('/rss', methods=['GET', 'POST'], endpoint="rss")
+@blog.route('/rss', methods=['GET', 'POST'], endpoint="rss_deprecated")
+@blog.route('/rss.xml', methods=['GET', 'POST'], endpoint="rss")
 def index():
     """
     This endpoint provides the index page, which is a listing of the recent blog posts
@@ -67,7 +68,7 @@ def index():
             current_post.author = BlogPostDeletedAuthor(current_post.author_id)
         blog_posts.append(current_post)
 
-    if request.endpoint == "blog.rss":
+    if request.endpoint == "blog.rss" or request.endpoint == "blog.rss_deprecated":
         feed = FeedGenerator()
         feed.title(website_context["title"])
         feed.description("DO NOT SCRAPE MORE THAN ONCE PER 4 HOURS!")
