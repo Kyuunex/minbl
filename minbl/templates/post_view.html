@@ -29,15 +29,15 @@
     {% endif %}
 
     <div class="blog_post_contents">
-        {{ markdown2.markdown(BLOG_POST.contents, extras=["fenced-code-blocks", "tables"]) | safe }}
+        {{ markdown2.markdown(BLOG_POST.contents, extras=markdown_extras) | safe }}
     </div>
 
 {% endblock %}
 
 {% block FOOTER_CONTENTS %}
     {% if USER_PERMISSIONS >= 5 %}
-        <a href='{{ url_for("blog.post_edit_form", post_id=BLOG_POST.post_id) }}'><button>edit</button></a>
-        <a href='{{ url_for("blog.delete_post", post_id=BLOG_POST.post_id) }}'><button>delete</button></a><br>
+        <a href='{{ url_for("blog.post_edit_form", post_id=BLOG_POST.post_id) }}'><button class="btn btn-primary">edit</button></a>
+        <a href='{{ url_for("blog.delete_post", post_id=BLOG_POST.post_id) }}'><button class="btn btn-danger">delete</button></a><br>
     {% endif %}
     Posted by <a href='{{ url_for("blog.index", author_id=BLOG_POST.author.id) }}'>
     {{ BLOG_POST.author.display_name }}</a>

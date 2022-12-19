@@ -1,39 +1,36 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
-<div class="cookie_notice_section">
-    login and registration functionality requires the use of cookies.<br>
-    by logging in or registering, you agree for cookies to be set in your browser.
-    <a href="{{ url_for("cookies") }}">learn more</a>
-</div>
-<div class="login_form">
-<form action='{{ url_for("user_management.login_attempt") }}' method='POST'>
-    <table class="login_form_table">
-        <tr>
-            <td>username</td>
-            <td><input name='username' type='text'/></td>
-        </tr>
-        <tr>
-            <td>password</td>
-            <td><input name='password' type='password'/></td>
-        </tr>
-        <tr>
-            <td>6 digit code</td>
-            <td><input name='generated_code' type='text' placeholder='leave blank if not enabled'/></td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td><input type='checkbox' name='remember_me' value='1'/>remember me<br>
-            {% if ALLOW_REGISTRATION %}
-                <a href='{{ url_for("user_management.registration_form") }}'>account registration</a><br>
-            {% endif %}
-            <a href='{{ url_for("user_management.account_recovery_form") }}'>account recovery</a></td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td><input value='&#9919; log in' type='submit'/></td>
-        </tr>
-    </table>
-</form>
-</div>
+    <div class="alert alert-warning">
+        login and registration functionality requires the use of cookies.<br>
+        by logging in or registering, you agree for cookies to be set in your browser.
+        <a href="{{ url_for("cookies") }}" class="alert-link">learn more</a>
+    </div>
+
+    <form action='{{ url_for("user_management.login_attempt") }}' method='POST'>
+        <div class="form-floating">
+            <input name='username' type="text" id="username" class="form-control" placeholder="enter your username here" required />
+            <label for="username">username</label>
+        </div>
+        <div class="form-floating">
+            <input name='password' type='password' id="password" class="form-control" placeholder="enter your password here" required />
+            <label for="password">password</label>
+        </div>
+        <div class="form-floating">
+            <input name='generated_code' type='text' id="generated_code" class="form-control" placeholder="6 digit code if applicable" />
+            <label for="generated_code">6 digit code (leave blank if not enabled on your account!)</label>
+        </div>
+        <br>
+        <div class="form-check">
+            <input type='checkbox' name='remember_me' id="remember_me" value='1' class="form-check-input" />
+            <label for="remember_me" class="form-check-lable">remember me</label>
+        </div>
+        <br>
+        <input value='&#9919; log in' type='submit' class="btn btn-primary" />
+    </form>
+    <br>
+    {% if ALLOW_REGISTRATION %}
+        <a href='{{ url_for("user_management.registration_form") }}'><button class="btn btn-secondary">account registration</button></a><br>
+    {% endif %}
+    <a href='{{ url_for("user_management.account_recovery_form") }}'><button class="btn btn-secondary">account recovery</button></a>
 {% endblock %}

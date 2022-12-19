@@ -3,60 +3,74 @@
         {% block HEAD %}
             <title>{{ WEBSITE_CONTEXT['title'] }}</title>
         {% endblock %}
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
         <meta name=viewport content="width=device-width, initial-scale=1">
     </head>
     <body>
-
-        <div class="main">
-            <div class="head">
-                <nav class="mainnav">
-                    <div class="wslogo">
-                        <h1>
-                            <a href="{{ url_for("blog.index") }}">{{ WEBSITE_CONTEXT['title'] }}</a>
-                        </h1>
-                    </div>
-                </nav>
-            </div>
-            <hr>
-            {% block NAVBAR_CONTENTS %}
-                <div class='navbar'>
-                    <a href='{{ url_for("blog.index") }}'><button>home</button></a>
-                    <a href='{{ url_for("blog.rss") }}'><button>rss</button></a>
+        <nav class='navbar navbar-expand-sm navbar-dark bg-dark'>
+            <div class="container">
+                <a href="{{ url_for("blog.index") }}" class="navbar-brand">{{ WEBSITE_CONTEXT['title'] }}</a>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="{{ url_for("blog.index") }}" class="nav-link">home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for("blog.rss") }}" class="nav-link">rss</a>
+                    </li>
                     {% if USER_CONTEXT %}
-                        <a href='{{ url_for("blog.post_maker_form") }}'><button>post maker</button></a>
-                        <a href='{{ url_for("user_management.my_profile") }}'><button>profile</button></a>
-                        <a href='{{ url_for("user_management.account_settings") }}'><button>account settings</button></a>
+                        <li class="nav-item">
+                            <a href="{{ url_for("blog.post_maker_form") }}" class="nav-link">post maker</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for("user_management.my_profile") }}" class="nav-link">profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for("user_management.account_settings") }}" class="nav-link">account settings</a>
+                        </li>
                         {% if USER_CONTEXT.permissions >= 9 %}
-                            <a href='{{ url_for("administration.admin") }}'><button>administration</button></a>
+                            <li class="nav-item">
+                                <a href="{{ url_for("administration.admin") }}" class="nav-link">administration</a>
+                            </li>
                         {% endif %}
-                        <a href='{{ url_for("user_management.logout") }}'><button>logout</button></a>
+                        <li class="nav-item">
+                            <a href="{{ url_for("user_management.logout") }}" class="nav-link">logout</a>
+                        </li>
                     {% else %}
-                        <a href='{{ url_for("user_management.login_form") }}'><button>login</button></a>
+                        <li class="nav-item">
+                            <a href="{{ url_for("user_management.login_form") }}" class="nav-link">login</a>
+                        </li>
                     {% endif %}
-                </div><hr />
-            {% endblock %}
-            {% block NOTICE_BLOCK %}
-                {% if NOTICE_MESSAGE %}
-                <div class='notice_message'>
+                </ul>
+            </div>
+        </nav>
+        <br>
+        {% block NOTICE_BLOCK %}
+            {% if NOTICE_MESSAGE %}
+                <div class="container">
+                    <div class='alert alert-info'>
                         {{ NOTICE_MESSAGE }}
-                </div><hr />
-                {% endif %}
-            {% endblock %}
-            <div class="actual_page_contents">
-                {% block HTML_CONTENTS %}&nbsp;{% endblock %}
-            </div>
-            <div class="footer">
-                <hr>
-                {% block FOOTER_CONTENTS %}
-                    {% if USER_CONTEXT %}
-                        logged in as: {{ USER_CONTEXT.display_name }}
-                    {% else %}
-                        powered by <a href="https://github.com/Kyuunex/minbl">minbl</a>, a minimalist blog software.
-                        please consider leaving a star on github.
-                    {% endif %}
-                {% endblock %}
-            </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endblock %}
+        <div class="container">
+            {% block HTML_CONTENTS %}&nbsp;{% endblock %}
+        </div>
+        <div class="container">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <div class="d-flex align-items-center">
+                    <span class="mb-3 mb-md-0 text-muted">
+                        {% block FOOTER_CONTENTS %}
+                            {% if USER_CONTEXT %}
+                                logged in as: {{ USER_CONTEXT.display_name }}
+                            {% else %}
+                                powered by <a href="https://github.com/Kyuunex/minbl">minbl</a>, a minimalist blog software.
+                                please consider leaving a star on github.
+                            {% endif %}
+                        {% endblock %}
+                    </span>
+                </div>
+            </footer>
         </div>
     </body>
 </html>

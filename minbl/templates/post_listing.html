@@ -2,17 +2,19 @@
 {% block HTML_CONTENTS %}
     <div class="blog_listing">
     {% for BLOG_POST in BLOG_POSTS %}
-        <div class="blog_listing_one_post">
+        <div class="card">
             {% if BLOG_POST.cover_image_url %}
-                <img src="{{ BLOG_POST.cover_image_url }}" alt="{{ BLOG_POST.title }}" class="blog_post_cover_image"/>
+                <img src="{{ BLOG_POST.cover_image_url }}" alt="{{ BLOG_POST.title }}" class="card-img-top" style="width: 100%; height: 15vw; object-fit: cover"/>
             {% endif %}
-            <div class="blog_listing_one_post_title">
-                <a href='{{ url_for("blog.custom_url", post_id=BLOG_POST.custom_url) }}'>{{ BLOG_POST.title }}</a>
+            <div class="card-body">
+                <h3 class="card-title">
+                    <a href='{{ url_for("blog.custom_url", post_id=BLOG_POST.custom_url) }}'>{{ BLOG_POST.title }}</a>
+                </h3>
+                <div class="card-text">
+                    {{ BLOG_POST.preview }}
+                </div>
             </div>
-            <div class="blog_listing_one_post_preview">
-                {{ BLOG_POST.preview }}
-            </div>
-            <div class="blog_listing_one_post_author">
+            <div class="card-footer">
                 Posted by <a href='{{ url_for("blog.index", author_id=BLOG_POST.author.id) }}'>
                 {{ BLOG_POST.author.display_name }}</a>
                 on {{ BLOG_POST.timestamp_utc }}
@@ -21,6 +23,7 @@
                 {% endif %}
             </div>
         </div>
+        <br>
     {% endfor %}
     </div>
 {% endblock %}

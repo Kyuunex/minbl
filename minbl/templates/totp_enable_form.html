@@ -2,7 +2,7 @@
 
 {% block HTML_CONTENTS %}
 <form action='{{ url_for("user_management.enable_totp") }}' method='POST'>
-    <table border='0'>
+    <table class="table">
         <tr>
             <td colspan="2"><b>use the TOTP seed to generate a 6 digit code and submit.</b></td>
         </tr>

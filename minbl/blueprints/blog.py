@@ -202,13 +202,23 @@ def post_view(post_id):
     else:
         blog_post.author = BlogPostDeletedAuthor(blog_post.author_id)
 
+    classesDict = {"table": "table table-striped"}
+
+    extras = {
+        "tables": None,
+        "html-classes": classesDict,
+        "target-blank-links": None,
+        "fenced-code-blocks": None
+    }
+
     return render_template(
         "post_view.html",
         WEBSITE_CONTEXT=website_context,
         USER_CONTEXT=user_context,
         BLOG_POST=blog_post,
         USER_PERMISSIONS=user_permissions,
-        markdown2=markdown2
+        markdown2=markdown2,
+        markdown_extras=extras
     )
 
 
