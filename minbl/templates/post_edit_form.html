@@ -1,78 +1,60 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
-    <table width='100%'>
-        <form action='{{ url_for("blog.edit_post", post_id=BLOG_POST.post_id) }}' method='post' enctype='multipart/form-data'>
-            <tr>
-                <td colspan='2'>
-                    Title:
-                    <input name='post_title' type='text' style='width: 100%' placeholder='Post title' value='{{ BLOG_POST.title }}'/>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    Custom URL:
-                    <input name='custom_url' type='text' style='width: 100%' placeholder='Post title' value='{{ BLOG_POST.custom_url }}'/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Post privacy:
-                </td>
-                <td>
-                    <select name='post_privacy'>
-                        <option value='0'{% if BLOG_POST.privacy == 0 %} selected{% endif %}>Public</option>
-                        <option value='2'{% if BLOG_POST.privacy == 2 %} selected{% endif %}>Members</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Unlisted:
-                </td>
-                <td>
-                    <select name='post_unlisted'>
-                        <option value='1'{% if BLOG_POST.unlisted == 1 %} selected{% endif %}>Yes</option>
-                        <option value='0'{% if BLOG_POST.unlisted == 0 %} selected{% endif %}>No</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    Category:
-                    <input name='category' type='text' style='width: 100%' placeholder='Category' value='{{ BLOG_POST.category }}'/>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    Tags:
-                    <input name='tags' type='text' style='width: 100%' placeholder='Tags' value='{{ BLOG_POST.tags }}'/>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    Cover image URL:
-                    <input name='cover_image_url' type='text' style='width: 100%' placeholder='Post title' value='{{ BLOG_POST.cover_image_url }}'/>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    Preview:
-                    <textarea name='post_preview' style='width: 100%; height: 35%' placeholder='Post preview'>{{ BLOG_POST.preview }}</textarea>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    Post content:
-                    <textarea name='post_contents' style='width: 100%; height: 35%' placeholder='Post content'>{{ BLOG_POST.contents }}</textarea>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <input type='submit' value='&#9998; Post' />
-                    Tip: You can use markdown here. Also leave blank what's not applicable.
-                </td>
-            </tr>
-        </form>
-    </table>
+    <form action="{{ url_for("blog.edit_post", post_id=BLOG_POST.post_id) }}" method="post" enctype="multipart/form-data">
+        <div class="form-floating">
+            <input name="post_title" type="text" id="post_title" class="form-control" placeholder="Post title" value="{{ BLOG_POST.title }}" required />
+            <label for="post_title">Post title</label>
+        </div>
+        <div class="form-floating">
+            <input name="custom_url" type="text" id="custom_url" class="form-control" placeholder="Custom URL" value="{{ BLOG_POST.custom_url }}" />
+            <label for="custom_url">Custom URL</label>
+        </div>
+        <div class="form-floating">
+            <input name="cover_image_url" type="text" id="cover_image_url" class="form-control" placeholder="Cover image URL" value="{{ BLOG_POST.cover_image_url }}" />
+            <label for="cover_image_url">Cover image URL</label>
+        </div>
+
+        <div class="d-flex">
+            <div class="form-floating col-6">
+                <input name="category" type="text" id="category" class="form-control" placeholder="Category" value="{{ BLOG_POST.category }}" />
+                <label for="category">Category</label>
+            </div>
+            <div class="form-floating col-6">
+                <input name="tags" type="text" id="tags" class="form-control" placeholder="Tags" value="{{ BLOG_POST.tags }}" />
+                <label for="tags">Tags</label>
+            </div>
+        </div>
+
+        <div class="d-flex">
+            <div class="form-floating col-6">
+                <select class="form-select" name="post_privacy" id="post_privacy">
+                    <option value="0"{% if BLOG_POST.privacy == 0 %} selected{% endif %}>Public</option>
+                    <option value="2"{% if BLOG_POST.privacy == 2 %} selected{% endif %}>Members</option>
+                </select>
+                <label for="post_privacy">Privacy</label>
+            </div>
+            <div class="form-floating col-6">
+                <select class="form-select" name="post_unlisted" id="post_unlisted">
+                    <option value="1"{% if BLOG_POST.unlisted == 1 %} selected{% endif %}>Yes</option>
+                    <option value="0"{% if BLOG_POST.unlisted == 0 %} selected{% endif %}>No</option>
+                </select>
+                <label for="post_unlisted">Unlisted</label>
+            </div>
+        </div>
+
+        <div class="form-floating">
+            <textarea name="post_preview" type="text" id="post_preview" class="form-control" placeholder="Post preview" required>{{ BLOG_POST.preview }}</textarea>
+            <label for="post_preview">Post preview</label>
+        </div>
+        <div class="form-floating">
+            <textarea rows="4" style="height:40%;" name="post_contents" type="text" id="post_contents" class="form-control" placeholder="Post content" required>{{ BLOG_POST.contents }}</textarea>
+            <label for="post_contents">Post content (markdown enabled)</label>
+        </div>
+
+        <br>
+        <div class="form-floating">
+            <input type="submit" value="&#9998; Update post" class="btn btn-primary" />
+        </div>
+    </form>
 {% endblock %}
