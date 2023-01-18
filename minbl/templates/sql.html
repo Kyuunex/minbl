@@ -1,14 +1,23 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
-<form action='{{ url_for("administration.sql_exec") }}' method='POST'>
-<textarea name='sql_query' placeholder='sql query goes here' style='width: 100%; height: 35%'></textarea><br>
-<input value='execute' type='submit'/>
-</form>
+    <form action="{{ url_for("administration.sql_exec") }}" method="POST">
+        <div class="form-floating">
+            <textarea rows="4" style="height:40%;" name="sql_query" type="text" id="sql_query" class="form-control" placeholder="sql query goes here" required></textarea>
+            <label for="sql_query">sql query goes here</label>
+        </div>
 
-{% if SQL_RESULTS %}
-    <hr/>Results:<br>
-    <textarea style='width: 100%; height: 35%'>{{ SQL_RESULTS }}</textarea>
-{% endif %}
+        <br>
+        <div class="form-floating">
+            <input type="submit" value="execute" class="btn btn-primary" />
+        </div>
+    </form>
 
+    {% if SQL_RESULTS %}
+        <br>
+        <div class="form-floating">
+            <textarea rows="4" style="height:40%;" name="query_results" type="text" id="query_results" class="form-control" placeholder="query results" required>{{ SQL_RESULTS }}</textarea>
+            <label for="query_results">query results</label>
+        </div>
+    {% endif %}
 {% endblock %}
