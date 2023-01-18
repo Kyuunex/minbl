@@ -76,7 +76,8 @@ def totp_enable_form():
             "account_settings.html",
             WEBSITE_CONTEXT=website_context,
             USER_CONTEXT=user_context,
-            NOTICE_MESSAGE="TOTP is already enabled for this account!"
+            NOTICE_MESSAGE="TOTP is already enabled for this account!",
+            ALERT_TYPE="alert-info"
         )
 
     totp_seed = pyotp.random_base32()
@@ -118,7 +119,12 @@ def login_attempt():
         otp = request.form['generated_code']
         user_id = validate_user_credentials(username, password, otp=otp)
         if not user_id:
-            return render_template("login_form.html", WEBSITE_CONTEXT=website_context, NOTICE_MESSAGE="wrong password")
+            return render_template(
+                "login_form.html",
+                WEBSITE_CONTEXT=website_context,
+                NOTICE_MESSAGE="wrong password",
+                ALERT_TYPE="alert-danger"
+            )
 
         new_session_token = get_random_string(32)
         resp = make_response(redirect(url_for("blog.index")))
@@ -230,7 +236,8 @@ def enable_totp():
                 "account_settings.html",
                 WEBSITE_CONTEXT=website_context,
                 USER_CONTEXT=user_context,
-                NOTICE_MESSAGE="incorrect 6 digit code"
+                NOTICE_MESSAGE="incorrect 6 digit code",
+                ALERT_TYPE="alert-danger"
             )
         db_cursor.execute("INSERT INTO totp_seeds VALUES (?, ?, 1)", [str(user_context.id), totp_seed])
         db_connection.commit()
@@ -238,13 +245,15 @@ def enable_totp():
                 "account_settings.html",
                 WEBSITE_CONTEXT=website_context,
                 USER_CONTEXT=user_context,
-                NOTICE_MESSAGE="success"
+                NOTICE_MESSAGE="success",
+                ALERT_TYPE="alert-success"
             )
     return render_template(
         "account_settings.html",
         WEBSITE_CONTEXT=website_context,
         USER_CONTEXT=user_context,
-        NOTICE_MESSAGE="invalid use of the endpoint"
+        NOTICE_MESSAGE="invalid use of the endpoint",
+        ALERT_TYPE="alert-danger"
     )
 
 

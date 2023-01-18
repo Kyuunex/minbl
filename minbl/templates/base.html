@@ -48,7 +48,7 @@
         {% block NOTICE_BLOCK %}
             {% if NOTICE_MESSAGE %}
                 <div class="container">
-                    <div class='alert alert-info'>
+                    <div class='alert {{ ALERT_TYPE }}'>
                         {{ NOTICE_MESSAGE }}
                     </div>
                 </div>
