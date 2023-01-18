@@ -2,13 +2,12 @@
 
 {% block HTML_CONTENTS %}
     <form action="{{ url_for("administration.sql_exec") }}" method="POST">
-        <div class="form-floating">
+        <div class="form-floating my-1">
             <textarea rows="4" style="height:40%;" name="sql_query" type="text" id="sql_query" class="form-control" placeholder="sql query goes here" required></textarea>
             <label for="sql_query">sql query goes here</label>
         </div>
 
-        <br>
-        <div class="form-floating">
+        <div class="form-floating my-1">
             <input type="submit" value="execute" class="btn btn-primary" />
         </div>
     </form>

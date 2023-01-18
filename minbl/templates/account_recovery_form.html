@@ -2,15 +2,16 @@
 
 {% block HTML_CONTENTS %}
 <form action='{{ url_for("user_management.account_recovery_attempt") }}' method='POST'>
-    <div class="form-floating">
+    <div class="form-floating my-1">
         <input name='email' type="text" id="email" class="form-control" placeholder="enter your email here" required />
         <label for="email">email</label>
     </div>
-    <div class="form-floating">
+    <div class="form-floating my-1">
         <input name='username' type="text" id="username" class="form-control" placeholder="enter your username here" required />
         <label for="username">username</label>
     </div>
-    <br>
-    <input value='&#9919; submit request' type='submit' class="btn btn-primary" />
+    <div class="form-floating my-1">
+        <input value='&#9919; submit request' type='submit' class="btn btn-primary" />
+    </div>
 </form>
 {% endblock %}

@@ -2,16 +2,16 @@
 
 {% block HTML_CONTENTS %}
     <form action="{{ url_for("blog.make_post") }}" method="post" enctype="multipart/form-data">
-        <div class="form-floating">
+        <div class="form-floating my-1">
             <input name="post_title" type="text" id="post_title" class="form-control" placeholder="Post title" required />
             <label for="post_title">Post title</label>
         </div>
-        <div class="form-floating">
+        <div class="form-floating my-1">
             <input name="cover_image_url" type="text" id="cover_image_url" class="form-control" placeholder="Cover image URL" />
             <label for="cover_image_url">Cover image URL</label>
         </div>
 
-        <div class="d-flex">
+        <div class="d-flex my-1">
             <div class="form-floating col-6">
                 <input name="category" type="text" id="category" class="form-control" placeholder="Category" />
                 <label for="category">Category</label>
@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="d-flex">
+        <div class="d-flex my-1">
             <div class="form-floating col-6">
                 <select class="form-select" name="post_privacy" id="post_privacy">
                     <option value="0" selected>Public</option>
@@ -39,17 +39,16 @@
             </div>
         </div>
 
-        <div class="form-floating">
+        <div class="form-floating my-1">
             <textarea name="post_preview" type="text" id="post_preview" class="form-control" placeholder="Post preview" required></textarea>
             <label for="post_preview">Post preview</label>
         </div>
-        <div class="form-floating">
+        <div class="form-floating my-1">
             <textarea rows="4" style="height:40%;" name="post_contents" type="text" id="post_contents" class="form-control" placeholder="Post content" required></textarea>
             <label for="post_contents">Post content (markdown enabled)</label>
         </div>
 
-        <br>
-        <div class="form-floating">
+        <div class="form-floating my-1">
             <input type="submit" value="&#9998; Post" class="btn btn-primary" />
         </div>
     </form>
