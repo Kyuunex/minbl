@@ -28,9 +28,8 @@
         <br>
         <input value='&#9919; log in' type='submit' class="btn btn-primary" />
     </form>
-    <br>
     {% if ALLOW_REGISTRATION %}
-        <a href='{{ url_for("user_management.registration_form") }}'><button class="btn btn-secondary">account registration</button></a><br>
+        <a href='{{ url_for("user_management.registration_form") }}'><button class="btn btn-secondary mt-1">account registration</button></a>
     {% endif %}
-    <a href='{{ url_for("user_management.account_recovery_form") }}'><button class="btn btn-secondary">account recovery</button></a>
+    <a href='{{ url_for("user_management.account_recovery_form") }}'><button class="btn btn-secondary mt-1">account recovery</button></a>
 {% endblock %}
