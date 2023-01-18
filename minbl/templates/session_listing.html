@@ -1,28 +1,24 @@
 {% extends "base.html" %}
 {% block HTML_CONTENTS %}
-    <div class="session_listing">
     {% for SESSION in SESSION_LISTING %}
-        <div class="session_listing_one_session">
-            <div class="session_listing_one_session_ip">
+        <div class="card">
+            <h5 class="card-header">
                 {% if SESSION[4] %}
                     {{ ipaddress.IPv6Address(SESSION[3]) }}
                 {% else %}
                     {{ ipaddress.IPv4Address(SESSION[3]) }}
                 {% endif %}
-            </div>
-            <div class="session_listing_one_session_user_agent">
-                {{ SESSION[2] }}
-            </div>
-            <div class="session_listing_one_session_timestamp">
-                Created at: {{ datetime.fromtimestamp(SESSION[1], timezone.utc) }},
-                Expires at: {{ datetime.fromtimestamp(SESSION[6], timezone.utc) }}
-            </div>
-            <div class="session_listing_one_destroy_button">
-                <a href="{{ url_for("user_management.destroy_session_token", token_id=SESSION[5]) }}">
-                    <button>Invalidate session</button>
-                </a>
+            </h5>
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ SESSION[2] }}
+                </h5>
+                <p class="card-text">
+                    Created at: {{ datetime.fromtimestamp(SESSION[1], timezone.utc) }},<br>
+                    Expires at: {{ datetime.fromtimestamp(SESSION[6], timezone.utc) }}
+                </p>
+                <a href="{{ url_for("user_management.destroy_session_token", token_id=SESSION[5]) }}" class="btn btn-danger">Invalidate session</a>
             </div>
         </div>
     {% endfor %}
-    </div>
 {% endblock %}
