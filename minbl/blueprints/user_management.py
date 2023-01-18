@@ -263,7 +263,8 @@ def profile(user_id):
     if not user_context:
         return redirect(url_for("user_management.login_form"))
 
-    info_db = tuple(db_cursor.execute("SELECT id, email, username, display_name, permissions FROM users WHERE id = ?",
+    info_db = tuple(db_cursor.execute("SELECT id, email, username, display_name, permissions, email_is_public "
+                                      "FROM users WHERE id = ?",
                                       [user_id]))
     return render_template("profile.html", WEBSITE_CONTEXT=website_context, info=info_db[0], USER_CONTEXT=user_context)
 
