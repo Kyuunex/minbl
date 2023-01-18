@@ -9,26 +9,28 @@
 
     <h2>registration</h2>
     <form action="{{ url_for("user_management.registration_attempt") }}" method="POST">
-        <div class="form-floating mb-1">
+        <div class="form-floating my-1">
             <input name="username" type="text" id="username" class="form-control" placeholder="enter your username here" required />
             <label for="username">username</label>
         </div>
-        <div class="form-floating mb-1">
+        <div class="form-floating my-1">
             <input name="display_name" type="text" id="display_name" class="form-control" placeholder="display name" required />
             <label for="display_name">display name</label>
         </div>
-        <div class="form-floating mb-1">
+        <div class="form-floating my-1">
             <input name="email" type="text" id="email" class="form-control" placeholder="email" required />
             <label for="email">email</label>
         </div>
-        <div class="form-floating mb-1">
+        <div class="form-floating my-1">
             <input name="password" type="password" id="password" class="form-control" placeholder="enter your password here" required />
             <label for="password">password</label>
         </div>
-        <div class="form-floating mb-1">
+        <div class="form-floating my-1">
             <input name="repeat_password" type="password" id="repeat_password" class="form-control" placeholder="repeat password" required />
             <label for="repeat_password">repeat password</label>
         </div>
-        <input value="complete registration" type="submit" class="btn btn-primary" />
+        <div class="form-floating my-1">
+            <input value="complete registration" type="submit" class="btn btn-primary" />
+        </div>
     </form>
 {% endblock %}

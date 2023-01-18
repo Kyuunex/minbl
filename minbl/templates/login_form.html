@@ -8,28 +8,30 @@
     </div>
 
     <form action='{{ url_for("user_management.login_attempt") }}' method='POST'>
-        <div class="form-floating">
+        <div class="form-floating my-1">
             <input name='username' type="text" id="username" class="form-control" placeholder="enter your username here" required />
             <label for="username">username</label>
         </div>
-        <div class="form-floating">
+        <div class="form-floating my-1">
             <input name='password' type='password' id="password" class="form-control" placeholder="enter your password here" required />
             <label for="password">password</label>
         </div>
-        <div class="form-floating">
+        <div class="form-floating my-1">
             <input name='generated_code' type='text' id="generated_code" class="form-control" placeholder="6 digit code if applicable" />
             <label for="generated_code">6 digit code (leave blank if not enabled on your account!)</label>
         </div>
-        <br>
-        <div class="form-check">
+        <div class="form-check my-3">
             <input type='checkbox' name='remember_me' id="remember_me" value='1' class="form-check-input" />
             <label for="remember_me" class="form-check-lable">remember me</label>
         </div>
-        <br>
-        <input value='&#9919; log in' type='submit' class="btn btn-primary" />
+        <div class="form-floating my-1">
+            <input value='&#9919; log in' type='submit' class="btn btn-primary" />
+        </div>
     </form>
-    {% if ALLOW_REGISTRATION %}
-        <a href='{{ url_for("user_management.registration_form") }}'><button class="btn btn-secondary mt-1">account registration</button></a>
-    {% endif %}
-    <a href='{{ url_for("user_management.account_recovery_form") }}'><button class="btn btn-secondary mt-1">account recovery</button></a>
+    <div class="form-floating my-1">
+        {% if ALLOW_REGISTRATION %}
+            <a href='{{ url_for("user_management.registration_form") }}'><button class="btn btn-secondary">account registration</button></a>
+        {% endif %}
+        <a href='{{ url_for("user_management.account_recovery_form") }}'><button class="btn btn-secondary">account recovery</button></a>
+    </div>
 {% endblock %}
