@@ -1,66 +1,56 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
-    <table width='100%'>
-        <form action='{{ url_for("blog.make_post") }}' method='post' enctype='multipart/form-data'>
-            <tr>
-                <td colspan='2'>
-                    <input name='post_title' type='text' style='width: 100%' placeholder='Post title' />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Post privacy:
-                </td>
-                <td>
-                    <select name='post_privacy'>
-                        <option value='0' selected>Public</option>
-                        <option value='2'>Members</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Unlisted:
-                </td>
-                <td>
-                    <select name='post_unlisted'>
-                        <option value='1'>Yes</option>
-                        <option value='0' selected>No</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <input name='category' type='text' style='width: 100%' placeholder='Category' />
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <input name='tags' type='text' style='width: 100%' placeholder='Tags' />
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <input name='cover_image_url' type='text' style='width: 100%' placeholder='Cover image URL' />
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <textarea name='post_preview' style='width: 100%; height: 35%' placeholder='Post preview'></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <textarea name='post_contents' style='width: 100%; height: 35%' placeholder='Post content'></textarea>
-                </td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <input type='submit' value='&#9998; Post' />
-                    Tip: You can use markdown here. Also leave blank what's not applicable.
-                </td>
-            </tr>
-        </form>
-    </table>
+    <form action="{{ url_for("blog.make_post") }}" method="post" enctype="multipart/form-data">
+        <div class="form-floating">
+            <input name="post_title" type="text" id="post_title" class="form-control" placeholder="Post title" required />
+            <label for="post_title">Post title</label>
+        </div>
+        <div class="form-floating">
+            <input name="cover_image_url" type="text" id="cover_image_url" class="form-control" placeholder="Cover image URL" />
+            <label for="cover_image_url">Cover image URL</label>
+        </div>
+
+        <div class="d-flex">
+            <div class="form-floating col-6">
+                <input name="category" type="text" id="category" class="form-control" placeholder="Category" />
+                <label for="category">Category</label>
+            </div>
+            <div class="form-floating col-6">
+                <input name="tags" type="text" id="tags" class="form-control" placeholder="Tags" />
+                <label for="tags">Tags</label>
+            </div>
+        </div>
+
+        <div class="d-flex">
+            <div class="form-floating col-6">
+                <select class="form-select" name="post_privacy" id="post_privacy">
+                    <option value="0" selected>Public</option>
+                    <option value="2">Members</option>
+                </select>
+                <label for="post_privacy">Privacy</label>
+            </div>
+            <div class="form-floating col-6">
+                <select class="form-select" name="post_unlisted" id="post_unlisted">
+                    <option value="1">Yes</option>
+                    <option value="0" selected>No</option>
+                </select>
+                <label for="post_unlisted">Unlisted</label>
+            </div>
+        </div>
+
+        <div class="form-floating">
+            <textarea name="post_preview" type="text" id="post_preview" class="form-control" placeholder="Post preview" required></textarea>
+            <label for="post_preview">Post preview</label>
+        </div>
+        <div class="form-floating">
+            <textarea rows="4" style="height:40%;" name="post_contents" type="text" id="post_contents" class="form-control" placeholder="Post content" required></textarea>
+            <label for="post_contents">Post content (markdown enabled)</label>
+        </div>
+
+        <br>
+        <div class="form-floating">
+            <input type="submit" value="&#9998; Post" class="btn btn-primary" />
+        </div>
+    </form>
 {% endblock %}
