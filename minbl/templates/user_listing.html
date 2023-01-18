@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block HTML_CONTENTS %}
+    <style>.card {display:inline-block;}</style>
+    {% for info in USER_LISTING %}
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="{{ url_for('static', filename='default_pp.png') }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ info[3] }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ info[2] }}</h6>
+                <div class="card-text">permissions: {{ info[4] }}</div>
+                <div class="card-text">{{ info[1] }}</div>
+                <a href="{{ url_for("blog.index", author_id=info[0]) }}" class="btn btn-primary mt-2">view posts</a>
+                <a href="{{ url_for("user_management.my_profile", user_id=info[0]) }}" class="btn btn-primary mt-2">view profile</a>
+                <a href="#" class="btn btn-danger mt-2">ban</a>
+            </div>
+            <div class="card-footer">
+                UUID: {{ info[0] }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

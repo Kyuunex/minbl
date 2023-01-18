@@ -57,3 +57,21 @@ def sql_exec():
             USER_CONTEXT=user_context,
             SQL_RESULTS=sql_results
         )
+
+
+@administration.route('/user_list')
+def user_listing():
+    user_context = get_user_context()
+    if not user_context:
+        return redirect(url_for("user_management.login_form"))
+    if not user_context.permissions >= 9:
+        return "you do not have permissions to perform this action"
+
+    info_db = tuple(db_cursor.execute("SELECT id, email, username, display_name, permissions, email_is_public "
+                                      "FROM users"))
+    return render_template(
+        "user_listing.html",
+        WEBSITE_CONTEXT=website_context,
+        USER_LISTING=info_db,
+        USER_CONTEXT=user_context
+    )
