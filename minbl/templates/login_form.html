@@ -30,8 +30,8 @@
     </form>
     <div class="form-floating my-1">
         {% if ALLOW_REGISTRATION %}
-            <a href='{{ url_for("user_management.registration_form") }}'><button class="btn btn-secondary">account registration</button></a>
+            <a href='{{ url_for("user_management.registration_form") }}' class="btn btn-secondary">account registration</a>
         {% endif %}
-        <a href='{{ url_for("user_management.account_recovery_form") }}'><button class="btn btn-secondary">account recovery</button></a>
+        <a href='{{ url_for("user_management.account_recovery_form") }}' class="btn btn-secondary">account recovery</a>
     </div>
 {% endblock %}
