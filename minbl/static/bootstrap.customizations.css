@@ -1,0 +1,10 @@
+[data-bs-theme="dark"] {
+    --bs-body-bg: #2d2a2e;
+    --bs-body-bg-rgb: 45,42,46;
+    --bs-dark: #19161a;
+    --bs-dark-rgb: 25,22,26;
+    --bs-link-color: #ffd866;
+    --bs-link-color-rgb: 255,216,102;
+    --bs-link-hover-color: #fce7a7;
+    --bs-link-hover-color-rgb: 252,231,167;
+}
