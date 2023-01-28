@@ -1,10 +1,5 @@
 # minbl
-minbl is a blog software focused on being minimal, made in Flask.
-+ loads instantly
-+ no javascript
-+ no bootstrap
-+ no react
-+ no bullshit
+minbl is a modern looking blog software focused on being simple, made in Flask.
 
 ### installation
 just install this as a pip package  
