@@ -14,37 +14,44 @@
         <nav class='navbar navbar-expand-sm navbar-dark bg-dark'>
             <div class="container">
                 <a href="{{ url_for("blog.index") }}" class="navbar-brand">{{ WEBSITE_CONTEXT['title'] }}</a>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="{{ url_for("blog.index") }}" class="nav-link">home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ url_for("blog.rss") }}" class="nav-link">rss</a>
-                    </li>
-                    {% if USER_CONTEXT %}
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-menu">
+                    <span class="span navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="nav-menu">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a href="{{ url_for("blog.post_maker_form") }}" class="nav-link">post maker</a>
+                            <a href="{{ url_for("blog.index") }}" class="nav-link">home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url_for("user_management.my_profile") }}" class="nav-link">profile</a>
+                            <a href="{{ url_for("blog.rss") }}" class="nav-link">rss</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ url_for("user_management.account_settings") }}" class="nav-link">account settings</a>
-                        </li>
-                        {% if USER_CONTEXT.permissions >= 9 %}
+                        {% if USER_CONTEXT %}
                             <li class="nav-item">
-                                <a href="{{ url_for("administration.admin") }}" class="nav-link">administration</a>
+                                <a href="{{ url_for("blog.post_maker_form") }}" class="nav-link">post</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for("user_management.my_profile") }}" class="nav-link">profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url_for("user_management.account_settings") }}" class="nav-link">account</a>
+                            </li>
+                            {% if USER_CONTEXT.permissions >= 9 %}
+                                <li class="nav-item">
+                                    <a href="{{ url_for("administration.admin") }}" class="nav-link">admin</a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a href="{{ url_for("user_management.logout") }}" class="nav-link">logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="{{ url_for("user_management.login_form") }}" class="nav-link">login</a>
                             </li>
                         {% endif %}
-                        <li class="nav-item">
-                            <a href="{{ url_for("user_management.logout") }}" class="nav-link">logout</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a href="{{ url_for("user_management.login_form") }}" class="nav-link">login</a>
-                        </li>
-                    {% endif %}
-                </ul>
+                    </ul>
+                </div>
             </div>
         </nav>
         <br>
