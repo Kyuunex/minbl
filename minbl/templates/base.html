@@ -56,18 +56,22 @@
                 </div>
             </div>
         </nav>
-        {% block NOTICE_BLOCK %}
-            {% if NOTICE_MESSAGE %}
-                <div class="container">
-                    <div class='alert {{ ALERT_TYPE }}'>
-                        {{ NOTICE_MESSAGE }}
+        <section>
+            {% block NOTICE_BLOCK %}
+                {% if NOTICE_MESSAGE %}
+                    <div class="container">
+                        <div class='alert {{ ALERT_TYPE }}'>
+                            {{ NOTICE_MESSAGE }}
+                        </div>
                     </div>
-                </div>
-            {% endif %}
-        {% endblock %}
-        <div class="container">
-            {% block HTML_CONTENTS %}&nbsp;{% endblock %}
-        </div>
+                {% endif %}
+            {% endblock %}
+        </section>
+        <section>
+            <div class="container">
+                {% block HTML_CONTENTS %}&nbsp;{% endblock %}
+            </div>
+        </section>
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
             <div class="container">
                 <div class="d-flex align-items-center">
