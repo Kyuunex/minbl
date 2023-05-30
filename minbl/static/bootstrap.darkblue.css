@@ -3,8 +3,24 @@
     --bs-body-bg-rgb: 28, 30, 38;
     --bs-dark: #16161C;
     --bs-dark-rgb: 22, 22, 28;
-    --bs-link-color: #556988;
-    --bs-link-color-rgb: 85, 105, 136;
-    --bs-link-hover-color: #6f7784;
-    --bs-link-hover-color-rgb: 111,119,132;
+
+    --bs-body-color: #FFFFFF;
+    --bs-body-color-rgb: 255, 255, 255;
+
+    --bs-primary: #3c6391;
+    --bs-primary-rgb: 60, 99, 145;
+    --bs-primary-text: #3c6391;
+    --bs-blue: #3c6391;
+}
+
+.btn-primary {
+    --bs-btn-bg: #3c6391;
+    --bs-btn-border-color: #3c6391;
+    --bs-btn-hover-bg: #91003c;
+    --bs-btn-hover-border-color: #91003c;
+}
+
+.navbar-dark {
+    --bs-navbar-color: rgba(255, 255, 255, 0.70);
+    --bs-navbar-hover-color: rgba(255, 255, 255, 1);
 }
