@@ -13,7 +13,7 @@
         <meta name=viewport content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <nav class='navbar navbar-expand-sm navbar-dark bg-dark'>
+        <nav class='navbar navbar-expand-sm navbar-dark bg-dark mb-4'>
             <div class="container">
                 <a href="{{ url_for("blog.index") }}" class="navbar-brand">{{ WEBSITE_CONTEXT['title'] }}</a>
 
@@ -56,7 +56,6 @@
                 </div>
             </div>
         </nav>
-        <br>
         {% block NOTICE_BLOCK %}
             {% if NOTICE_MESSAGE %}
                 <div class="container">
