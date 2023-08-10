@@ -33,20 +33,23 @@
         {{ markdown2.markdown(BLOG_POST.contents, extras=markdown_extras) | safe }}
     </div>
 </div>
-
-{% endblock %}
-
-{% block FOOTER_CONTENTS %}
-    {% if USER_PERMISSIONS >= 5 %}
-        <a href='{{ url_for("blog.post_edit_form", post_id=BLOG_POST.post_id) }}' class="btn btn-primary">edit</a>
-        <a href='{{ url_for("blog.delete_post", post_id=BLOG_POST.post_id) }}' class="btn btn-danger">delete</a>
-    {% endif %}
-    <p>
-        Posted by <a href='{{ url_for("blog.index", author_id=BLOG_POST.author.id) }}'>
-        {{ BLOG_POST.author.display_name }}</a>
-        on {{ BLOG_POST.timestamp_utc }}
-        {% if (BLOG_POST.timestamp) != (BLOG_POST.last_edit_timestamp) %}
-            <br>Last edited on: {{ BLOG_POST.last_edit_timestamp_utc }}
+<section class="bg-info bg-opacity-10 text-light py-2">
+    <div class="container">
+        {% if USER_PERMISSIONS >= 5 %}
+            <div class="mb-1">
+                <a href='{{ url_for("blog.post_edit_form", post_id=BLOG_POST.post_id) }}' class="btn btn-primary">edit</a>
+                <a href='{{ url_for("blog.delete_post", post_id=BLOG_POST.post_id) }}' class="btn btn-danger">delete</a>
+            </div>
         {% endif %}
-    </p>
+        <p>
+            Posted by <a href='{{ url_for("blog.index", author_id=BLOG_POST.author.id) }}'>
+            {{ BLOG_POST.author.display_name }}</a>
+            on {{ BLOG_POST.timestamp_utc }}
+            {% if (BLOG_POST.timestamp) != (BLOG_POST.last_edit_timestamp) %}
+                <br>Last edited on: {{ BLOG_POST.last_edit_timestamp_utc }}
+            {% endif %}
+        </p>
+    </div>
+</section>
+
 {% endblock %}
