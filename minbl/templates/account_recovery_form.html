@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
+<div class="container">
 <form action='{{ url_for("user_management.account_recovery_attempt") }}' method='POST'>
     <div class="form-floating my-1">
         <input name='email' type="text" id="email" class="form-control" placeholder="enter your email here" required />
@@ -14,4 +15,5 @@
         <input value='&#9919; submit request' type='submit' class="btn btn-primary" />
     </div>
 </form>
+</div>
 {% endblock %}

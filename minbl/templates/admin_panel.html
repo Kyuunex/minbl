@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
+<div class="container">
     <h1>admin panel</h1>
     <a href="{{ url_for("administration.sql_form") }}" class="btn btn-primary my-1">sql console</a><br>
     <a href="{{ url_for("administration.user_listing") }}" class="btn btn-primary my-1">user listing</a>
+</div>
 {% endblock %}

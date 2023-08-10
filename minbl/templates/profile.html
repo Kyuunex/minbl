@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
+<div class="container">
     <div class="d-flex justify-content-center">
         <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="{{ url_for('static', filename='default_pp.png') }}" alt="Card image cap">
@@ -18,4 +19,5 @@
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

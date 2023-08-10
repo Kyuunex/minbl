@@ -21,6 +21,7 @@
 {% endblock %}
 
 {% block HTML_CONTENTS %}
+<div class="container">
     <div class="blog_post_title"><h2>{{ BLOG_POST.title }}</h2></div>
 
     {% if BLOG_POST.cover_image_url %}
@@ -47,4 +48,5 @@
             <br>Last edited on: {{ BLOG_POST.last_edit_timestamp_utc }}
         {% endif %}
     </p>
+</div>
 {% endblock %}

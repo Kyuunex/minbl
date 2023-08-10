@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
+<div class="container">
     <form action="{{ url_for("administration.sql_exec") }}" method="POST">
         <div class="form-floating my-1">
             <textarea rows="4" style="height:40%;" name="sql_query" type="text" id="sql_query" class="form-control" placeholder="sql query goes here" required></textarea>
@@ -19,4 +20,5 @@
             <label for="query_results">query results</label>
         </div>
     {% endif %}
+</div>
 {% endblock %}

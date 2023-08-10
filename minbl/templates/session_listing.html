@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block HTML_CONTENTS %}
+<div class="container">
     {% for SESSION in SESSION_LISTING %}
         <div class="card">
             <h5 class="card-header">
@@ -21,4 +22,5 @@
             </div>
         </div>
     {% endfor %}
+</div>
 {% endblock %}

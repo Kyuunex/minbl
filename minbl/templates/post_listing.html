@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block HTML_CONTENTS %}
+<div class="container">
     <div class="blog_listing">
     {% for BLOG_POST in BLOG_POSTS %}
         <div class="card">
@@ -26,4 +27,5 @@
         <br>
     {% endfor %}
     </div>
+</div>
 {% endblock %}

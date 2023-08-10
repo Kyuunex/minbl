@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
+<div class="container">
     <style>.card {display:inline-block;}</style>
     {% for info in USER_LISTING %}
         <div class="card" style="width: 18rem;">
@@ -19,4 +20,5 @@
             </div>
         </div>
     {% endfor %}
+</div>
 {% endblock %}

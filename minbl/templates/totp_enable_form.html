@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block HTML_CONTENTS %}
+<div class="container">
     <div class="alert alert-info">
         use this TOTP seed to generate a 6-digit code and submit.
     </div>
@@ -18,4 +19,5 @@
             <input type="submit" value="&#9919; verify" class="btn btn-primary" />
         </div>
     </form>
+</div>
 {% endblock %}
