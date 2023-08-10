@@ -32,6 +32,7 @@
     <div class="blog_post_contents">
         {{ markdown2.markdown(BLOG_POST.contents, extras=markdown_extras) | safe }}
     </div>
+</div>
 
 {% endblock %}
 
@@ -48,5 +49,4 @@
             <br>Last edited on: {{ BLOG_POST.last_edit_timestamp_utc }}
         {% endif %}
     </p>
-</div>
 {% endblock %}
