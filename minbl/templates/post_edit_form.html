@@ -17,25 +17,25 @@
         </div>
 
         <div class="input-group">
-            <div class="form-floating col-6">
+            <div class="form-floating my-1">
                 <input name="category" type="text" id="category" class="form-control" placeholder="Category" value="{{ BLOG_POST.category }}" />
                 <label for="category">Category</label>
             </div>
-            <div class="form-floating col-6">
+            <div class="form-floating my-1">
                 <input name="tags" type="text" id="tags" class="form-control" placeholder="Tags" value="{{ BLOG_POST.tags }}" />
                 <label for="tags">Tags</label>
             </div>
         </div>
 
         <div class="input-group">
-            <div class="form-floating col-6">
+            <div class="form-floating my-1">
                 <select class="form-select" name="post_privacy" id="post_privacy">
                     <option value="0"{% if BLOG_POST.privacy == 0 %} selected{% endif %}>Public</option>
                     <option value="2"{% if BLOG_POST.privacy == 2 %} selected{% endif %}>Members</option>
                 </select>
                 <label for="post_privacy">Privacy</label>
             </div>
-            <div class="form-floating col-6">
+            <div class="form-floating my-1">
                 <select class="form-select" name="post_unlisted" id="post_unlisted">
                     <option value="1"{% if BLOG_POST.unlisted == 1 %} selected{% endif %}>Yes</option>
                     <option value="0"{% if BLOG_POST.unlisted == 0 %} selected{% endif %}>No</option>
