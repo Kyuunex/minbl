@@ -8,7 +8,7 @@
 
     <form action="{{ url_for("user_management.enable_totp") }}" method="POST">
         <div class="form-floating my-1">
-            <input onClick="this.select();" name="totp_seed" type="text" id="totp_seed" class="form-control" placeholder="TOTP Seed" value="{{ GENERATED_TOTP_SEED }}" readonly />
+            <input onClick="this.select();" name="totp_seed" type="text" id="totp_seed" class="form-control-plaintext" placeholder="TOTP Seed" value="{{ GENERATED_TOTP_SEED }}" readonly />
             <label for="totp_seed">TOTP Seed</label>
         </div>
         <div class="form-floating my-1">
