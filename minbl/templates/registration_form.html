@@ -7,32 +7,35 @@
         by logging in or registering, you agree for cookies to be set in your browser.
         <a href="{{ url_for("cookies") }}" class="alert-link">learn more</a>
     </div>
-
-    <h2>registration</h2>
-    <form action="{{ url_for("user_management.registration_attempt") }}" method="POST">
-        <div class="form-floating my-1">
-            <input name="username" type="text" id="username" class="form-control" placeholder="enter your username here" required />
-            <label for="username">username</label>
+    <div class="d-flex justify-content-center">
+        <div class="col-8 col-sm-8 col-md-5 col-lg-4 col-xl-3 col-xxl-3">
+            <h2>registration</h2>
+            <form action="{{ url_for("user_management.registration_attempt") }}" method="POST">
+                <div class="form-floating my-1">
+                    <input name="username" type="text" id="username" class="form-control" placeholder="enter your username here" required />
+                    <label for="username">username</label>
+                </div>
+                <div class="form-floating my-1">
+                    <input name="display_name" type="text" id="display_name" class="form-control" placeholder="display name" required />
+                    <label for="display_name">display name</label>
+                </div>
+                <div class="form-floating my-1">
+                    <input name="email" type="text" id="email" class="form-control" placeholder="email" required />
+                    <label for="email">email</label>
+                </div>
+                <div class="form-floating my-1">
+                    <input name="password" type="password" id="password" class="form-control" placeholder="enter your password here" required />
+                    <label for="password">password</label>
+                </div>
+                <div class="form-floating my-1">
+                    <input name="repeat_password" type="password" id="repeat_password" class="form-control" placeholder="repeat password" required />
+                    <label for="repeat_password">repeat password</label>
+                </div>
+                <div class="form-floating my-1">
+                    <input value="complete registration" type="submit" class="btn btn-primary" />
+                </div>
+            </form>
         </div>
-        <div class="form-floating my-1">
-            <input name="display_name" type="text" id="display_name" class="form-control" placeholder="display name" required />
-            <label for="display_name">display name</label>
-        </div>
-        <div class="form-floating my-1">
-            <input name="email" type="text" id="email" class="form-control" placeholder="email" required />
-            <label for="email">email</label>
-        </div>
-        <div class="form-floating my-1">
-            <input name="password" type="password" id="password" class="form-control" placeholder="enter your password here" required />
-            <label for="password">password</label>
-        </div>
-        <div class="form-floating my-1">
-            <input name="repeat_password" type="password" id="repeat_password" class="form-control" placeholder="repeat password" required />
-            <label for="repeat_password">repeat password</label>
-        </div>
-        <div class="form-floating my-1">
-            <input value="complete registration" type="submit" class="btn btn-primary" />
-        </div>
-    </form>
+    </div>
 </div>
 {% endblock %}
