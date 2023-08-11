@@ -3,7 +3,7 @@
 {% block HTML_CONTENTS %}
 <div class="container">
     <h1>security settings</h1>
-    <a href="#" class="btn disabled my-1">change password</a><br>
+    <a href="{{ url_for("user_management.change_password_form") }}" class="btn btn-danger my-1">change password</a><br>
     <a href="{{ url_for("user_management.totp_enable_form") }}" class="btn btn-primary my-1">enable 2 factor auth</a><br>
     <a href="{{ url_for("user_management.session_listing_page") }}" class="btn btn-primary my-1">manage sessions</a><br>
     <a href="#" class="btn disabled my-1" >disable password recovery for this account</a><br>

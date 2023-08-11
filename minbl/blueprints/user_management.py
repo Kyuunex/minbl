@@ -318,3 +318,89 @@ def destroy_session_token():
     db_cursor.execute("DELETE FROM session_tokens WHERE token_id = ?", [token_id])
     db_connection.commit()
     return resp
+
+
+@user_management.route('/change_password_form')
+def change_password_form():
+    user_context = get_user_context()
+    if not user_context:
+        return redirect(url_for("user_management.login_form"))
+
+    return render_template("password_change_form.html", WEBSITE_CONTEXT=website_context, USER_CONTEXT=user_context)
+
+
+@user_management.route('/change_password_attempt', methods=['POST'])
+def change_password_attempt():
+    user_context = get_user_context()
+    if not user_context:
+        return redirect(url_for("user_management.login_form"))
+
+    old_password = request.form['old_password']
+    new_password = request.form['new_password']
+    repeat_new_password = request.form['repeat_new_password']
+    otp = request.form['generated_code']
+
+    if not new_password == repeat_new_password:
+        return render_template(
+            "account_settings.html",
+            WEBSITE_CONTEXT=website_context,
+            USER_CONTEXT=user_context,
+            NOTICE_MESSAGE="passwords don't match",
+            ALERT_TYPE="alert-danger"
+        )
+
+    # validate old password
+
+    old_password_salt_db = tuple(db_cursor.execute("SELECT password_salt FROM user_passwords WHERE user_id = ?",
+                                                   [user_context.id]))
+    if not old_password_salt_db:
+        # This should never happen
+        return "this should never happen error"
+
+    user_totp_seed = tuple(db_cursor.execute("SELECT seed FROM totp_seeds WHERE user_id = ? AND enabled = 1",
+                                             [user_context.id]))
+    if user_totp_seed:
+        totp = pyotp.TOTP(user_totp_seed[0][0])
+        if not totp.verify(str(otp)):
+            return render_template(
+                "account_settings.html",
+                WEBSITE_CONTEXT=website_context,
+                USER_CONTEXT=user_context,
+                NOTICE_MESSAGE="totp is enabled for this account but not supplied or correct",
+                ALERT_TYPE="alert-danger"
+            )
+
+    old_password_salt = old_password_salt_db[0][0]
+
+    old_hashed_password = hashlib.sha256((old_password + old_password_salt).encode()).hexdigest()
+
+    db_query = tuple(db_cursor.execute("SELECT user_id FROM user_passwords WHERE user_id = ? AND password_hash = ?",
+                                       [user_context.id, old_hashed_password]))
+    if not db_query:
+        return render_template(
+            "account_settings.html",
+            WEBSITE_CONTEXT=website_context,
+            USER_CONTEXT=user_context,
+            NOTICE_MESSAGE="old password incorrect",
+            ALERT_TYPE="alert-danger"
+        )
+
+    db_cursor.execute("DELETE FROM user_passwords WHERE user_id = ? AND password_hash = ? AND password_salt = ?",
+                      [str(user_context.id), str(old_hashed_password), old_password_salt])
+
+    # generate new password hash
+    new_password_salt = get_random_string(32)
+
+    new_hashed_password = hashlib.sha256((new_password + new_password_salt).encode()).hexdigest()
+
+    db_cursor.execute("INSERT INTO user_passwords (user_id, password_hash, password_salt) VALUES (?, ?, ?)",
+                      [str(user_context.id), str(new_hashed_password), new_password_salt])
+    db_connection.commit()
+
+    return render_template(
+        "account_settings.html",
+        WEBSITE_CONTEXT=website_context,
+        USER_CONTEXT=user_context,
+        NOTICE_MESSAGE="password changed successfully",
+        ALERT_TYPE="alert-success"
+    )
